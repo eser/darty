@@ -16,18 +16,28 @@ if (global.fetch === undefined) {
 // react-dom
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router';
+
+// history
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 
 // execute startup
 import AppStack from './appStack';
-import appMapping from '~/startup';
+import startup from '~/startup';
+
+const startupArgs = {
+    history,
+};
+
+const appMapping = startup(startupArgs);
 
 const appStack = new AppStack()
     .addRange(appMapping);
 
 const root = appStack.wrapWith(
     children =>
-    <BrowserRouter>{children}</BrowserRouter>
+    <Router history={history}>{children}</Router>
 );
 
 const targetElement = document.getElementsByTagName('app')[0];

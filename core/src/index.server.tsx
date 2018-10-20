@@ -5,9 +5,17 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 
+// history
+const history = {};
+
 // execute startup
 import AppStack from './appStack';
-import appMapping from '~/startup';
+import startup from '~/startup';
+
+const startupArgs = {
+    history,
+};
+const appMapping = startup(startupArgs);
 
 // SSR rendering method
 function ssrRenderer(appStack: AppStack, url, context = {}): string {

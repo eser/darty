@@ -23,7 +23,6 @@ you want, you'll be starting with a structured, scaleable and adaptable basecode
 * Isomorphic/Universal codebase between server and client.
 * IntelliSense support on TypeScript.
 * React DevTools support.
-* Redux-enabled with thunk and logger middlewares.
 * Unit-testing-ready environment.
 * JavaScript and TypeScript linting.
 * Autoprefixed CSS to avoid adding vendor prefixes.
@@ -34,8 +33,7 @@ you want, you'll be starting with a structured, scaleable and adaptable basecode
 
 * React for rendering components.
 * React Router for SPA routing.
-* Redux for state management.
-* bulma and Font-Awesome are included.
+* Redux binding for state management.
 * Jest for tests, ESLint for linting.
 * Webpack bundling with code splitting enabled.
 * express for server-side rendering.
@@ -86,6 +84,7 @@ Use `dart <task>` command in project folder to execute tasks defined in `package
 - BrowserSync support
 - Service Workers
 - Dynamic Code Splitting
+- Isomorphic fetch and promise polyfills
 
 See [GitHub Projects](https://github.com/eserozvataf/dart/projects) for more.
 
