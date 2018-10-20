@@ -7,7 +7,7 @@ const nodeExternals = require('webpack-node-externals');
 const serverConfig = configWrapper((vars) => {
     const common = commonConfig('server')(vars.env, vars.argv);
 
-    // const packageJson = require(`${vars.dirRoot}/package.json`);
+    // const packageJson = require(`${vars.appRoot}/package.json`);
     // const whiteListModules = [
     //     ...Object.keys(packageJson.dependencies || {}),
     //     ...Object.keys(packageJson.devDependencies || {}),
@@ -26,7 +26,7 @@ const serverConfig = configWrapper((vars) => {
         ],
 
         entry: {
-            'server': [ './core/src/index.server.tsx' ],
+            'server': [ `${vars.dartRoot}/core/src/index.server.tsx` ],
         },
 
         output: {

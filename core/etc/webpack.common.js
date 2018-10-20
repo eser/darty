@@ -2,12 +2,14 @@
 const path = require('path');
 const webpack = require('webpack');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const DotenvPlugin = require('webpack-dotenv-plugin');
 const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const configWrapper = (targetConfigFunction) => (env, argv) => {
-    const dirRoot = process.cwd(); // path.resolve(__dirname, '../../');
+    const appRoot = process.cwd();
+    const dartRoot = path.resolve(__dirname, '../../');
 
     const envValue = argv.mode || process.env.NODE_ENV || 'development';
     const isProduction = (envValue === 'production');
@@ -15,7 +17,7 @@ const configWrapper = (targetConfigFunction) => (env, argv) => {
     let manifest;
 
     try {
-        manifest = require(`${dirRoot}/manifest.json`);
+        manifest = require(`${appRoot}/manifest.json`);
     }
     catch (ex) {
         manifest = {};
@@ -25,7 +27,8 @@ const configWrapper = (targetConfigFunction) => (env, argv) => {
         env,
         argv,
         manifest,
-        dirRoot,
+        appRoot,
+        dartRoot,
         envValue,
         isProduction,
     });
@@ -35,7 +38,7 @@ const commonConfig = (name) => configWrapper((vars) => {
     return {
         mode: vars.isProduction ? 'production' : 'development',
         devtool: vars.isProduction ? 'source-map' : 'cheap-module-eval-source-map',
-        context: vars.dirRoot,
+        context: vars.appRoot,
 
         output: {
             filename: '[name].js',
@@ -44,7 +47,7 @@ const commonConfig = (name) => configWrapper((vars) => {
             publicPath: '/',
             // hotUpdateChunkFilename: 'hot/hot-update.js',
             // hotUpdateMainFilename: 'hot/hot-update.json',
-            path: path.join(vars.dirRoot, 'dist'),
+            path: path.join(vars.appRoot, 'dist'),
         },
 
         module: {
@@ -64,7 +67,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                             loader: 'ts-loader',
                             options: {
                                 transpileOnly: true,
-                                configFile: path.resolve(__dirname, 'tsconfig.json'),
+                                configFile: `${__dirname}/tsconfig.json`,
                             },
                         },
                     ],
@@ -76,8 +79,15 @@ const commonConfig = (name) => configWrapper((vars) => {
         resolve: {
             extensions: [ '.ts', '.tsx', '.js', '.jsx' ],
             modules: [
-                path.join(vars.dirRoot, 'src'),
-                path.join(vars.dirRoot, 'node_modules'),
+                path.join(vars.appRoot, 'src'),
+                path.join(vars.appRoot, 'node_modules'),
+            ],
+            plugins: [
+                new TsconfigPathsPlugin({
+                    configFile: `${vars.dartRoot}/core/etc/tsconfig.json`,
+                    extensions: [ '.ts', '.tsx', '.js', '.jsx' ],
+                    baseUrl: vars.appRoot,
+                }),
             ],
             alias: {
                 'react-native': 'react-native-web',
@@ -88,6 +98,7 @@ const commonConfig = (name) => configWrapper((vars) => {
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: JSON.stringify(vars.envValue),
+                    DART_VARS: JSON.stringify(vars),
                 },
             }),
             new webpack.WatchIgnorePlugin([
@@ -95,7 +106,7 @@ const commonConfig = (name) => configWrapper((vars) => {
             ]),
             new CaseSensitivePathsPlugin(),
             new DotenvPlugin({
-                sample: './.env.default',
+                sample: `${vars.dartRoot}/templates/.env.default`,
                 path: './.env',
             }),
             new AsyncChunkNames(),

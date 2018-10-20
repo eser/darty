@@ -1,7 +1,6 @@
 /* eslint-env node */
 const { configWrapper, commonConfig } = require('./webpack.common');
 
-const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin');
@@ -24,7 +23,7 @@ const browserConfig = configWrapper((vars) => {
         target: 'web',
 
         entry: {
-            'browser': [ './core/src/index.browser.tsx' ],
+            'browser': [ `${vars.dartRoot}/core/src/index.browser.tsx` ],
         },
 
         output: {
@@ -95,7 +94,7 @@ const browserConfig = configWrapper((vars) => {
                             loader: 'postcss-loader',
                             options: {
                                 sourceMap: true,
-                                path: path.resolve(__dirname),
+                                path: __dirname,
                             },
                         },
                         {
@@ -127,7 +126,7 @@ const browserConfig = configWrapper((vars) => {
                             options: {
                                 parser: 'postcss-js',
                                 sourceMap: true,
-                                path: path.resolve(__dirname),
+                                path: __dirname,
                             },
                         },
                     ],

@@ -20,7 +20,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 // execute startup
 import AppStack from './appStack';
-import appMapping from '../../src/startup';
+import appMapping from '~/startup';
 
 const appStack = new AppStack()
     .addRange(appMapping);

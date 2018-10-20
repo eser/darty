@@ -7,7 +7,7 @@ import { StaticRouter } from 'react-router-dom';
 
 // execute startup
 import AppStack from './appStack';
-import appMapping from '../../src/startup';
+import appMapping from '~/startup';
 
 // SSR rendering method
 function ssrRenderer(appStack: AppStack, url, context = {}): string {
