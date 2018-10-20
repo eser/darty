@@ -1,0 +1,43 @@
+{
+  "name": "dart-app",
+  "description": "Dart App",
+  "keywords": [
+  ],
+  "version": "0.0.1",
+  "homepage": "",
+  "author": "",
+  "contributors": [
+    {
+      "name": "",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "license": "",
+  "main": "",
+  "engines": {
+    "node": ">=8.10.0"
+  },
+  "scripts": {
+    "init": "dart init",
+    "start": "dart start",
+    "dev": "dart dev",
+    "lint": "dart lint",
+    "test": "dart test",
+    "bundle": "dart bundle",
+    "bundle:prod": "dart bundle:prod",
+    "bundleServer": "dart bundleServer",
+    "bundleServer:prod": "dart bundleServer:prod",
+    "containerize": "dart containerize"
+  },
+  "dependencies": {
+    "dart-cli": "^0.10.0"
+  }
+}

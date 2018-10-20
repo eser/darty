@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const locateCommandFunc = require('./utils/locateCommandFunc');
+
+process.on('unhandledRejection', (err) => {
+    throw err;
+});
+
+const commands = [
+    'bundle',
+    'bundle:prod',
+    'bundleServer',
+    'bundleServer:prod',
+    'containerize',
+    'dev',
+    'init',
+    'lint',
+    'start',
+    'test',
+];
+
+const args = process.argv.slice(2);
+const commandFunc = locateCommandFunc(commands, args);
+
+commandFunc();

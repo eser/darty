@@ -1,0 +1,102 @@
+{
+  "name": "dart-cli",
+  "description": "Dart",
+  "keywords": [
+    "typescript",
+    "typed",
+    "react",
+    "spa",
+    "boilerplate",
+    "starter"
+  ],
+  "version": "0.11.0",
+  "homepage": "https://github.com/eserozvataf/dart",
+  "author": "Eser Ozvataf <eser@ozvataf.com>",
+  "contributors": [
+    {
+      "name": "Eser Ozvataf",
+      "email": "eser@ozvataf.com",
+      "url": "http://eser.ozvataf.com/"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eserozvataf/dart.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eserozvataf/dart/issues"
+  },
+  "license": "Apache-2.0",
+  "main": "./bin/dart",
+  "bin": {
+    "dart": "./bin/dart"
+  },
+  "files": [
+    "bin",
+    "core",
+    "templates"
+  ],
+  "engines": {
+    "node": ">=8.10.0"
+  },
+  "dependencies": {
+    "@types/enzyme": "^3.1.14",
+    "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.5",
+    "@types/node": "^10.12.0",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/react": "^16.4.18",
+    "@types/webpack": "^4.4.17",
+    "autoprefixer": "^9.2.1",
+    "bulma": "^0.7.2",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "copy-webpack-plugin": "^4.5.4",
+    "css-loader": "^1.0.0",
+    "cssnano": "^4.1.5",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme": "^3.7.0",
+    "es6-promise": "^4.2.5",
+    "eslint-config-eser-react": "^2.0.7",
+    "eslint-config-eser": "^2.0.7",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint": "^5.7.0",
+    "express": "^4.16.4",
+    "extract-css-chunks-webpack-plugin": "^3.2.0",
+    "file-loader": "^2.0.0",
+    "font-awesome": "^4.7.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.6.0",
+    "node-sass": "^4.9.4",
+    "postcss-import": "^12.0.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-modules": "^1.4.1",
+    "postcss-nesting": "^7.0.0",
+    "postcss": "^7.0.5",
+    "react-dom": "^16.5.2",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react": "^16.5.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "redux": "^4.0.1",
+    "sass-loader": "^7.1.0",
+    "ts-jest": "^23.10.4",
+    "ts-loader": "^5.2.2",
+    "tslib": "^1.9.3",
+    "typescript-eslint-parser": "^20.0.0",
+    "typescript": "^3.1.3",
+    "typings-for-css-modules-loader": "^1.7.0",
+    "url-loader": "^1.1.2",
+    "webpack-async-chunk-names-plugin": "^0.1.1",
+    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9",
+    "webpack-dotenv-plugin": "^2.1.0",
+    "webpack-node-externals": "^1.7.2",
+    "webpack": "^4.21.0",
+    "whatwg-fetch": "^3.0.0"
+  }
+}
