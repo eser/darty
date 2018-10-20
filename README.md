@@ -77,9 +77,15 @@ Use `dart <task>` command in project folder to execute tasks defined in `package
 ## Todo List
 
 - App Presets
-- Init
+- Init (CLI Create App)
 - Eject
 - Containerization
+- HTML generation
+- Helmet
+- Bundle + BundleServer together
+- BrowserSync support
+- Service Workers
+- Dynamic Code Splitting
 
 See [GitHub Projects](https://github.com/eserozvataf/dart/projects) for more.
 
