@@ -71,7 +71,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                             },
                         },
                     ],
-                    exclude: /node_modules/,
+                    // exclude: /node_modules/,
                 },
             ],
         },
