@@ -41,6 +41,16 @@ you want, you'll be starting with a structured, scaleable and adaptable basecode
 
 ## Quick start
 
+Ensure that `node.js` is installed on your system first.
+
+### Alternative 1
+Use the following command:
+
+```sh
+npx dart create app
+```
+
+### Alternative 2
 Clone the sample app's git repo `git clone
    https://github.com/eserozvataf/dart-app.git` - and checkout the [tagged
    release](https://github.com/eserozvataf/dart-app/releases) you'd like to
@@ -51,20 +61,15 @@ Execute `npm install` to install dependencies for development environment.
 
 ## Dart Tasks
 
-Ensure that `node.js` is installed on your system first.
-```bash
-$ node --version
-```
-
-Use `dart <task>` command in project folder to execute tasks defined in `package.json`.
+Use `dart [task]` command in project folder to execute tasks defined in `package.json`.
 
 | Task                     | Description                                                                            |
 |--------------------------|----------------------------------------------------------------------------------------|
-| `init`                   | Initializes codebase.                                                                  |
-| `bundle`                 | Builds the project, generates required files for clients                               |
-| `bundle:prod`            | Builds the project, generates required files for clients (production)                  |
+| `create [folder]`        | Creates a new dart project                                                             |
+| `bundle`                 | Builds the project, generates required files                                           |
+| `bundle:prod`            | Builds the project, generates required files (production)                              |
 | `start`                  | Starts SSR-enabled express server                                                      |
-| `dev`                    | Enables live development environment powered by hot module reloading                   |
+| `dev`                    | Enables live development environment powered by hot module reloading          |
 | `lint`                   | Executes linter to check codebase against linting errors                               |
 | `test`                   | Runs tests to check codebase against unit testing scenerios                            |
 | `containerize`           | Build and runs container image for docker                                              |
@@ -73,15 +78,12 @@ Use `dart <task>` command in project folder to execute tasks defined in `package
 ## Todo List
 
 - App Presets
-- Init (CLI Create App)
 - Eject
 - Containerization
-- HTML generation
 - Helmet
 - BrowserSync support
 - Service Workers
 - Dynamic Code Splitting
-- Isomorphic fetch and promise polyfills
 
 See [GitHub Projects](https://github.com/eserozvataf/dart/projects) for more.
 

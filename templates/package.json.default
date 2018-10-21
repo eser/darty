@@ -26,7 +26,6 @@
     "node": ">=8.10.0"
   },
   "scripts": {
-    "init": "dart init",
     "start": "dart start",
     "dev": "dart dev",
     "lint": "dart lint",

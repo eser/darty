@@ -12,14 +12,21 @@ const commands = [
     'bundle',
     'bundle:prod',
     'containerize',
+    'create',
     'dev',
-    'init',
     'lint',
     'start',
     'test',
 ];
 
 const args = process.argv.slice(2);
-const commandFunc = locateCommandFunc(commands, args);
+const commandFunc = locateCommandFunc(commands, ...args);
 
-commandFunc();
+if (commandFunc.error !== null) {
+    console.error(commandFunc.error);
+
+    process.exit(1);
+    return;
+}
+
+commandFunc.func(...commandFunc.args);

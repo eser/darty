@@ -20,6 +20,4 @@ COPY . .
 
 EXPOSE ${PORT}
 
-RUN npm run init
-
 CMD ["npm", "start"]
