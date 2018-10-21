@@ -4,9 +4,16 @@ import AppStackContainer from './appStackContainer';
 
 class AppStack {
     definitions: { [key: string]: any };
+    startupArgs: { [key: string]: any };
 
     constructor(definitions: { [key: string]: any } = []) {
         this.definitions = definitions;
+    }
+
+    setStartupArgs(startupArgs: { [key: string]: any }): AppStack {
+        this.startupArgs = startupArgs;
+
+        return this;
     }
 
     add(path: string, app: any, store: any, state: any): AppStack {

@@ -19,7 +19,7 @@ class AppStackContainer extends React.Component<AppStackContainerProps, AppStack
             <Switch key="appStack-switch">
                 {Object.keys(this.props.appStack.definitions).map((itemKey) => {
                     const definition = this.props.appStack.definitions[itemKey];
-                    const component = <Route path={itemKey} component={definition.app} key={`appStack-switch-provider-app-${renderIndex++}`} />;
+                    const component = <Route path={itemKey} render={() => <definition.app startupArgs={this.props.appStack.startupArgs} />} key={`appStack-switch-provider-app-${renderIndex++}`} />;
 
                     if (definition.store !== undefined) {
                         return (

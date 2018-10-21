@@ -3,19 +3,11 @@
 // react-dom
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
-
-// history
-const history = {};
+import { StaticRouter } from 'react-router';
 
 // execute startup
 import AppStack from './appStack';
-import startup from '~/startup';
-
-const startupArgs = {
-    history,
-};
-const appMapping = startup(startupArgs);
+import { appStack, startupArgs } from './appStartup';
 
 // SSR rendering method
 function ssrRenderer(appStack: AppStack, url, context = {}): string {
@@ -36,9 +28,6 @@ function ssrRenderer(appStack: AppStack, url, context = {}): string {
 
     return html;
 }
-
-const appStack = new AppStack()
-    .addRange(appMapping);
 
 const serverObjects = {
     appStack,
