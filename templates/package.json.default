@@ -38,6 +38,6 @@
     "containerize": "dart containerize"
   },
   "dependencies": {
-    "dart-cli": "^0.10.0"
+    "dart": "^0.20.0"
   }
 }

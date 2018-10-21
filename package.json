@@ -1,5 +1,5 @@
 {
-  "name": "dart-cli",
+  "name": "dart",
   "description": "Dart",
   "keywords": [
     "typescript",
@@ -9,7 +9,7 @@
     "boilerplate",
     "starter"
   ],
-  "version": "0.16.0",
+  "version": "0.20.0",
   "homepage": "https://github.com/eserozvataf/dart",
   "author": "Eser Ozvataf <eser@ozvataf.com>",
   "contributors": [
@@ -77,7 +77,7 @@
     "typescript-eslint-parser": "^20.0.0",
     "typings-for-css-modules-loader": "^1.7.0",
     "url-loader": "^1.1.2",
-    "webpack": "^4.21.0",
+    "webpack": "^4.22.0",
     "webpack-async-chunk-names-plugin": "^0.1.1",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.1.2",
