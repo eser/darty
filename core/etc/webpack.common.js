@@ -110,6 +110,7 @@ const commonConfig = (name) => configWrapper((vars) => {
             new DotenvPlugin({
                 sample: `${vars.dartRoot}/templates/.env.default`,
                 path: './.env',
+                allowEmptyValues: true,
             }),
             new AsyncChunkNames(),
             new BundleAnalyzerPlugin({
