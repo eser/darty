@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const DotenvPlugin = require('webpack-dotenv-plugin');
+const DotenvPlugin = require('dotenv-webpack');
 const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -108,9 +108,9 @@ const commonConfig = (name) => configWrapper((vars) => {
             ]),
             new CaseSensitivePathsPlugin(),
             new DotenvPlugin({
-                sample: `${vars.dartRoot}/templates/.env.default`,
-                path: './.env',
-                allowEmptyValues: true,
+                // safe: `${vars.dartRoot}/templates/.env.default`,
+                // path: './.env',
+                silent: true,
             }),
             new AsyncChunkNames(),
             new BundleAnalyzerPlugin({
