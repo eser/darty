@@ -4,6 +4,7 @@ const { configWrapper, commonConfig } = require('./webpack.common');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const browserConfig = configWrapper((vars) => {
     const common = commonConfig('browser')(vars.env, vars.argv);
@@ -44,7 +45,7 @@ const browserConfig = configWrapper((vars) => {
                     // vendor chunk
                     vendor: {
                         // name of the chunk
-                        name: `browser-vendors`,
+                        name: 'browser-vendors',
                         // async + async chunks
                         chunks: 'all',
                         // import file path containing node_modules
@@ -54,7 +55,7 @@ const browserConfig = configWrapper((vars) => {
                     },
                     // common chunk
                     common: {
-                        name: `browser-common`,
+                        name: 'browser-common',
                         minChunks: 2,
                         chunks: 'async',
                         priority: 10,
@@ -183,6 +184,14 @@ const browserConfig = configWrapper((vars) => {
             }),
             new CopyWebpackPlugin(
                 vars.manifest.staticFiles.map(x => ({ from: x, to: './', flatten: true })),
+            ),
+            ...Object.keys(vars.manifest.htmlTemplates).map(filename =>
+                new HtmlWebpackPlugin({
+                    title: vars.manifest.title,
+                    filename: filename,
+                    template: vars.manifest.htmlTemplates[filename],
+                    inject: false,
+                })
             ),
             ...optionalPlugins,
         ],

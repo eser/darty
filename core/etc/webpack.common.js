@@ -60,7 +60,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                     },
                 },
                 {
-                    test: /\.[tj]sx?$/,
+                    test: /\.([tj]sx?|mjs)$/,
                     enforce: 'pre',
                     use: [
                         {
@@ -77,15 +77,16 @@ const commonConfig = (name) => configWrapper((vars) => {
         },
 
         resolve: {
-            extensions: [ '.ts', '.tsx', '.js', '.jsx' ],
+            extensions: [ '.ts', '.tsx', '.js', '.jsx', '.mjs' ],
             modules: [
                 path.join(vars.appRoot, 'src'),
                 path.join(vars.appRoot, 'node_modules'),
             ],
+            mainFields: [ 'main', 'module' ],
             plugins: [
                 new TsconfigPathsPlugin({
                     configFile: `${vars.dartRoot}/core/etc/tsconfig.json`,
-                    extensions: [ '.ts', '.tsx', '.js', '.jsx' ],
+                    extensions: [ '.ts', '.tsx', '.js', '.jsx', '.mjs' ],
                     baseUrl: vars.appRoot,
                 }),
             ],
