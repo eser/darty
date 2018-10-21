@@ -98,6 +98,7 @@ const commonConfig = (name) => configWrapper((vars) => {
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: JSON.stringify(vars.envValue),
+                    PLATFORM: JSON.stringify(name),
                     DART_VARS: JSON.stringify(vars),
                 },
             }),

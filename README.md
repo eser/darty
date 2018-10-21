@@ -63,8 +63,6 @@ Use `dart <task>` command in project folder to execute tasks defined in `package
 | `init`                   | Initializes codebase.                                                                  |
 | `bundle`                 | Builds the project, generates required files for clients                               |
 | `bundle:prod`            | Builds the project, generates required files for clients (production)                  |
-| `bundleServer`           | Builds the project, generates required files for SSR                                   |
-| `bundleServer:prod`      | Builds the project, generates required files for SSR (production)                      |
 | `start`                  | Starts SSR-enabled express server                                                      |
 | `dev`                    | Enables live development environment powered by hot module reloading                   |
 | `lint`                   | Executes linter to check codebase against linting errors                               |
@@ -80,7 +78,6 @@ Use `dart <task>` command in project folder to execute tasks defined in `package
 - Containerization
 - HTML generation
 - Helmet
-- Bundle + BundleServer together
 - BrowserSync support
 - Service Workers
 - Dynamic Code Splitting

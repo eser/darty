@@ -18,8 +18,24 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Router } from 'react-router';
 
+// startup
+import AppStack from './appStack';
+import startupExecutor from './startupExecutor';
+
+// history
+import { createBrowserHistory } from 'history';
+
 // execute startup
-import { appStack, startupArgs } from './appStartup';
+const startupArgs = {
+    history: createBrowserHistory(),
+};
+
+const { appMapping } = startupExecutor(startupArgs);
+
+// appStack
+const appStack = new AppStack()
+    .setStartupArgs(startupArgs)
+    .addRange(appMapping);
 
 const root = appStack.wrapWith(
     children =>

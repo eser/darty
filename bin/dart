@@ -11,8 +11,6 @@ process.on('unhandledRejection', (err) => {
 const commands = [
     'bundle',
     'bundle:prod',
-    'bundleServer',
-    'bundleServer:prod',
     'containerize',
     'dev',
     'init',

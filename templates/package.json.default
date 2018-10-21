@@ -33,8 +33,6 @@
     "test": "dart test",
     "bundle": "dart bundle",
     "bundle:prod": "dart bundle:prod",
-    "bundleServer": "dart bundleServer",
-    "bundleServer:prod": "dart bundleServer:prod",
     "containerize": "dart containerize"
   },
   "dependencies": {

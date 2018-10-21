@@ -1,13 +1,18 @@
 /* eslint-env node */
 
+// polyfills
+if (global.fetch === undefined) {
+    global.fetch = require('node-fetch');
+}
+
 // react-dom
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 
-// execute startup
+// startup
 import AppStack from './appStack';
-import { appStack, startupArgs } from './appStartup';
+import startupExecutor from './startupExecutor';
 
 // SSR rendering method
 function ssrRenderer(appStack: AppStack, url, context = {}): string {
@@ -28,6 +33,18 @@ function ssrRenderer(appStack: AppStack, url, context = {}): string {
 
     return html;
 }
+
+// execute startup
+const startupArgs = {
+    history: {},
+};
+
+const { appMapping } = startupExecutor(startupArgs);
+
+// appStack
+const appStack = new AppStack()
+    .setStartupArgs(startupArgs)
+    .addRange(appMapping);
 
 const serverObjects = {
     appStack,
