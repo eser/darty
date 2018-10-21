@@ -1,14 +1,13 @@
-const { spawnSync } = require('child_process');
+const spawn = require('cross-spawn');
 
-function shellSpawn(commandLine, cwd) {
-    const proc = spawnSync(commandLine, {
+function shellSpawn(command, args, cwd) {
+    const proc = spawn.sync(command, args, {
         stdio: 'inherit',
-        shell: true,
         cwd: cwd || process.cwd(),
     });
 
     if (proc.status > 0) {
-        throw new Error(`command '${commandLine}' exited with ${proc.status}.`);
+        throw new Error(`command '${command}' exited with ${proc.status}.`);
     }
 
     return proc;

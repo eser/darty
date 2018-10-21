@@ -14,9 +14,9 @@ function create(folder) {
 
     const target = path.resolve(process.cwd(), folder);
 
-    shellSpawn(`git clone --depth=1 --branch=master ${baseRepo} ${target}`);
+    shellSpawn('git', [ 'clone', '--depth=1', '--branch=master', baseRepo, target ]);
     rimraf.sync(`${target}/.git`);
-    shellSpawn(`npm install`, target);
+    shellSpawn('npm', [ 'install', target ]);
 }
 
 module.exports = create;
