@@ -58,10 +58,14 @@ const serverConfig = configWrapper((vars) => {
                     ],
                 },
                 {
-                    test: /\.(eot|ttf|jpe?g|png|gif|svg|ico)([\?]?.*)$/,
+                    test: /\.(eot|ttf|jpe?g|png|gif|ico)([\?]?.*)$/,
                     use: [
                         {
-                            loader: 'file-loader?emitFile=false'
+                            loader: 'file-loader?emitFile=false',
+                            options: {
+                                name: '[name].[ext]',
+                                outputPath: 'assets/',
+                            },
                         },
                     ],
                 },
@@ -70,6 +74,24 @@ const serverConfig = configWrapper((vars) => {
                     use: [
                         {
                             loader: 'url-loader?emitFile=false',
+                            options: {
+                                name: '[name].[ext]',
+                                outputPath: 'assets/',
+                            },
+                        },
+                    ],
+                },
+                {
+                    test: /\.(svg)([\?]?.*)$/,
+                    use: [
+                        {
+                            loader: 'url-loader?emitFile=false',
+                            options: {
+                                limit: 10000,
+                                mimetype: 'image/svg+xml',
+                                name: '[name].[ext]',
+                                outputPath: 'assets/',
+                            },
                         },
                     ],
                 },

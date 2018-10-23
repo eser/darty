@@ -4,10 +4,6 @@ services:
   app:
     container_name: dart-app
     build: .
-    command: "npm start"
+    restart: always
     ports:
       - "3000:3000"
-    # volumes:
-    #  - ./srv
-    environment:
-      - PORT=3000

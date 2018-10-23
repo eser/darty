@@ -50,6 +50,11 @@ const commonConfig = (name) => configWrapper((vars) => {
             path: path.join(vars.appRoot, 'dist'),
         },
 
+        optimization: {
+            // namedModules: true,
+            // namedChunks: true,
+        },
+
         module: {
             strictExportPresence: true,
 

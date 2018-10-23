@@ -37,6 +37,8 @@ const browserConfig = configWrapper((vars) => {
         },
 
         optimization: {
+            ...common.optimization,
+
             splitChunks: {
                 cacheGroups: {
                     default: false,
