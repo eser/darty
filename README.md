@@ -2,7 +2,7 @@
 
 Dart is a front-end development system to allow developers to start their projects
 immediately. By Dart's convention over configuration mindset, webpack and typescript
-configurations are handled by dart's itself.
+compiler configurations are handled by dart's itself.
 
 This project is the product of many years of iterative development and combined
 community knowledge. However you're free to architect your code in the way that
@@ -44,10 +44,10 @@ you want, you'll be starting with a structured, scaleable and adaptable basecode
 Ensure that `node.js` is installed on your system first.
 
 ### Alternative 1
-Use the following command:
+Use the following command to create app with [create-dart-app](https://github.com/eserozvataf/create-dart-app):
 
 ```sh
-npx dart create app
+npx create-dart-app app
 ```
 
 ### Alternative 2
@@ -65,7 +65,6 @@ Use `dart [task]` command in project folder to execute tasks defined in `package
 
 | Task                     | Description                                                                            |
 |--------------------------|----------------------------------------------------------------------------------------|
-| `create [folder]`        | Creates a new dart project                                                             |
 | `bundle`                 | Builds the project, generates required files                                           |
 | `bundle:prod`            | Builds the project, generates required files (production)                              |
 | `start`                  | Starts SSR-enabled express server                                                      |
@@ -77,7 +76,6 @@ Use `dart [task]` command in project folder to execute tasks defined in `package
 
 ## Todo List
 
-- App Presets
 - Eject
 - Helmet
 - BrowserSync support

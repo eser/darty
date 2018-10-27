@@ -12,7 +12,6 @@ const commands = [
     'bundle',
     'bundle:prod',
     'containerize',
-    'create',
     'dev',
     'lint',
     'start',
