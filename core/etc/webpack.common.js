@@ -23,6 +23,16 @@ const configWrapper = (targetConfigFunction) => (env, argv) => {
         manifest = {};
     }
 
+    if ('preset' in manifest) {
+        try {
+            const presetManifest = require(`${appRoot}/node_modules/${manifest['preset']}/manifest.json`);
+
+            manifest = Object.assign({}, presetManifest, manifest);
+        }
+        catch (ex) {
+        }
+    }
+
     return targetConfigFunction({
         env,
         argv,
