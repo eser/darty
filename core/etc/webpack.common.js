@@ -10,6 +10,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const configWrapper = (targetConfigFunction) => (env, argv) => {
     const appRoot = process.cwd();
     const dartRoot = path.resolve(__dirname, '../../');
+    let presetRoot;
 
     const envValue = argv.mode || process.env.NODE_ENV || 'development';
     const isProduction = (envValue === 'production');
@@ -25,9 +26,13 @@ const configWrapper = (targetConfigFunction) => (env, argv) => {
 
     if ('preset' in manifest) {
         try {
-            const presetManifest = require(`${appRoot}/node_modules/${manifest['preset']}/manifest.json`);
+            presetRoot = `${appRoot}/node_modules/${manifest['preset']}`;
 
-            manifest = Object.assign({}, presetManifest, manifest);
+            manifest = Object.assign(
+                {},
+                require(`${presetRoot}/manifest.json`),
+                manifest
+            );
         }
         catch (ex) {
         }
@@ -38,6 +43,7 @@ const configWrapper = (targetConfigFunction) => (env, argv) => {
         argv,
         manifest,
         appRoot,
+        presetRoot,
         dartRoot,
         envValue,
         isProduction,
