@@ -1,7 +1,7 @@
 const path = require('path');
 
-const presetManifest = {
-};
+// const presetManifest = {
+// };
 
 module.exports = {
     globals: {

@@ -1,15 +1,9 @@
-const presetManifest = {
-    extends: "eser-react",
-    jsx: true,
-    rules: {
-        "jsx-a11y/href-no-hash": 0,
-    }
-};
+const varsConstructor = require('./varsConstructor');
+
+const vars = varsConstructor();
 
 module.exports = {
-    "extends": [
-        presetManifest.extends,
-    ],
+    "extends": (vars.linter.extends || []),
     "env": {
         "commonjs": true,
         "browser": true,
@@ -19,10 +13,8 @@ module.exports = {
     "parserOptions": {
         "sourceType": "module",
         "ecmaFeatures": {
-            "jsx": presetManifest.jsx,
+            "jsx": (vars.features && vars.features.jsx),
         },
     },
-    "rules": {
-        ...presetManifest.rules,
-    },
+    "rules": (vars.linter.rules || {}),
 };

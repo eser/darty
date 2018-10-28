@@ -8,46 +8,11 @@ const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const configWrapper = (targetConfigFunction) => (env, argv) => {
-    const appRoot = process.cwd();
-    const dartRoot = path.resolve(__dirname, '../../');
-    let presetRoot;
+    const varsConstructor = require('./varsConstructor');
 
-    const envValue = argv.mode || process.env.NODE_ENV || 'development';
-    const isProduction = (envValue === 'production');
+    const vars = varsConstructor(env, argv);
 
-    let manifest;
-
-    try {
-        manifest = require(`${appRoot}/manifest.json`);
-    }
-    catch (ex) {
-        manifest = {};
-    }
-
-    if ('preset' in manifest) {
-        try {
-            presetRoot = `${appRoot}/node_modules/${manifest['preset']}`;
-
-            manifest = Object.assign(
-                {},
-                require(`${presetRoot}/manifest.json`),
-                manifest
-            );
-        }
-        catch (ex) {
-        }
-    }
-
-    return targetConfigFunction({
-        env,
-        argv,
-        manifest,
-        appRoot,
-        presetRoot,
-        dartRoot,
-        envValue,
-        isProduction,
-    });
+    return targetConfigFunction(vars);
 };
 
 const commonConfig = (name) => configWrapper((vars) => {
@@ -111,9 +76,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                     baseUrl: vars.appRoot,
                 }),
             ],
-            alias: {
-                // TODO aliases from preset
-            },
+            alias: (manifest.dependencyAliases || {}),
         },
 
         plugins: [
