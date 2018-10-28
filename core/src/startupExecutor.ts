@@ -5,7 +5,7 @@ function startupExecutor(startupArgs: { [key: string]: any }): any {
     let startupObj;
 
     if (startup.constructor === Function) {
-        startupObj = startup(startupArgs);
+        startupObj = new startup(startupArgs);
     }
     else {
         startupObj = startup;
