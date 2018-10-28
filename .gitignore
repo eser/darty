@@ -13,6 +13,3 @@ node_modules/
 
 # Swap files
 *.swp
-
-# hot updates
-dist/*.hot-update.*

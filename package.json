@@ -4,12 +4,11 @@
   "keywords": [
     "typescript",
     "typed",
-    "react",
     "spa",
     "boilerplate",
     "starter"
   ],
-  "version": "0.29.0",
+  "version": "0.40.0",
   "homepage": "https://github.com/eserozvataf/dart",
   "author": "Eser Ozvataf <eser@ozvataf.com>",
   "contributors": [
@@ -50,15 +49,10 @@
     "dotenv-webpack": "^1.5.7",
     "es6-promise": "^4.2.5",
     "eslint": "^5.8.0",
-    "eslint-config-eser": "^2.0.7",
-    "eslint-config-eser-react": "^2.0.7",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1",
     "express": "^4.16.4",
     "extract-css-chunks-webpack-plugin": "^3.2.1",
     "file-loader": "^2.0.0",
-    "history": "^4.7.2",
     "html-webpack-plugin": "^3.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
@@ -69,10 +63,6 @@
     "postcss-loader": "^3.0.0",
     "postcss-modules": "^1.4.1",
     "postcss-nesting": "^7.0.0",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-native-web": "^0.9.4",
-    "react-redux": "^5.1.0",
     "sass-loader": "^7.1.0",
     "ts-jest": "^23.10.4",
     "ts-loader": "^5.2.2",
@@ -94,9 +84,6 @@
     "@types/express": "^4.16.0",
     "@types/jest": "^23.3.8",
     "@types/node": "^10.12.0",
-    "@types/react": "^16.4.18",
-    "@types/react-dom": "^16.0.9",
-    "@types/react-router": "^4.0.32",
     "@types/webpack": "^4.4.17"
   }
 }

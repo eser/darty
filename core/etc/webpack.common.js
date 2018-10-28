@@ -96,7 +96,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                 }),
             ],
             alias: {
-                'react-native': 'react-native-web',
+                // TODO aliases from preset
             },
         },
 

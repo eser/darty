@@ -13,42 +13,17 @@ if (global.fetch === undefined) {
     require('whatwg-fetch');
 }
 
-// react-dom
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Router } from 'react-router';
-
 // startup
-import AppStack from './appStack';
-import startupExecutor from './startupExecutor';
-
-// history
-import { createBrowserHistory } from 'history';
-
-// execute startup
 const startupArgs = {
-    history: createBrowserHistory(),
 };
 
-const { appMapping } = startupExecutor(startupArgs);
-
-// appStack
-const appStack = new AppStack()
-    .setStartupArgs(startupArgs)
-    .addRange(appMapping);
-
-const root = appStack.wrapWith(
-    children =>
-    <Router history={startupArgs.history}>{children}</Router>
-);
+import startupExecutor from './startupExecutor';
+const startupObj = startupExecutor(startupArgs);
 
 const targetElement = document.getElementsByTagName('app')[0];
-if (targetElement.childNodes.length > 0) {
-    ReactDOM.hydrate(root, targetElement);
-}
-else {
-    ReactDOM.render(root, targetElement);
-}
+const isSsr = (targetElement.childNodes.length > 0);
+
+startupObj.clientRender(targetElement, isSsr);
 
 // webpack
 if (module.hot !== undefined) {
@@ -58,6 +33,6 @@ if (module.hot !== undefined) {
                 console.error('Cannot apply HMR update.', err);
             }
         },
-        () => ReactDOM.hydrate(root, targetElement),
+        () => startupObj.clientUpdateRender(targetElement),
     );
 }

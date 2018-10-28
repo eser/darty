@@ -1,5 +1,8 @@
 const path = require('path');
 
+const presetManifest = {
+};
+
 module.exports = {
     globals: {
         "ts-jest": {

@@ -1,19 +1,17 @@
 import startup from '~/startup';
 
 function startupExecutor(startupArgs: { [key: string]: any }): any {
-    // appMapping
-    let appMapping;
+    // startup object
+    let startupObj;
 
     if (startup.constructor === Function) {
-        appMapping = startup(startupArgs);
+        startupObj = startup(startupArgs);
     }
     else {
-        appMapping = startup;
+        startupObj = startup;
     }
 
-    return {
-        appMapping,
-    };
+    return startupObj;
 }
 
 export {

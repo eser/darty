@@ -11,7 +11,7 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const pwd = process.cwd();
 
 const serverRenderer = (req, res, next) => {
-    const serverObjects = require(`${pwd}/dist/server`);
+    const startupObj = require(`${pwd}/dist/server`).default;
 
     const filePath = path.join(pwd, 'dist/index.html');
 
@@ -23,7 +23,7 @@ const serverRenderer = (req, res, next) => {
         }
 
         // render the app as a string
-        const html = serverObjects.ssrRenderer(serverObjects.appStack, req.originalUrl);
+        const html = startupObj.serverRender(req.originalUrl);
 
         // inject the rendered app into our html and send it
         res.send(

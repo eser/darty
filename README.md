@@ -8,35 +8,39 @@ This project is the product of many years of iterative development and combined
 community knowledge. However you're free to architect your code in the way that
 you want, you'll be starting with a structured, scaleable and adaptable basecode.
 
-* Sample App Source: [https://github.com/eserozvataf/dart-app](https://github.com/eserozvataf/dart-app)
-* Sample App Preview: [http://dart-app.s3-website-eu-west-1.amazonaws.com](http://dart-app.s3-website-eu-west-1.amazonaws.com)
+* Sample React App Source: [https://github.com/eserozvataf/dart-react-app](https://github.com/eserozvataf/dart-react-app)
+* Sample React App Preview: [http://dart-react-app.s3-website-eu-west-1.amazonaws.com](http://dart-react-app.s3-website-eu-west-1.amazonaws.com)
 
 
 ## Features
 
 * Transforms ES2015+Typescript files with .ts/.tsx extension into browser-compatible JavaScript code.
-* Module bundling with webpack to pack everything into modules with their sourcemaps.
+* Module bundling for packing everything into modules with their sourcemaps.
+* Dynamic code splitting.
 * SASS compilation of .scss files.
 * CSS Modules.
 * Minification for stylesheets and scripts.
 * Hot module reloading and continuous development environment.
 * Isomorphic/Universal codebase between server and client.
+* Server-side rendering.
 * IntelliSense support on TypeScript.
-* React DevTools support.
-* Unit-testing-ready environment.
+* Unit-testing setup and TDD-ready environment.
 * JavaScript and TypeScript linting.
 * Autoprefixed CSS to avoid adding vendor prefixes.
 * Containerization-ready for continuous integration/deployment environments.
 
 
-## Architecture and Libraries
+## Fixed and Extensible Parts
 
-* React for rendering components.
-* React Router for SPA routing.
-* Redux binding for state management.
+Static components are:
 * Jest for tests, ESLint for linting.
-* Webpack bundling with code splitting enabled.
+* Webpack for module bundling.
 * express for server-side rendering.
+
+The rest are depends on the preset chosen.
+
+React preset broughts react components and setup,
+Vue preset broughts vue setup and etc.
 
 
 ## Quick start
@@ -47,16 +51,19 @@ Ensure that `node.js` is installed on your system first.
 Use the following command to create app with [create-dart-app](https://github.com/eserozvataf/create-dart-app):
 
 ```sh
-npx create-dart-app app
+npx create-dart-app react app
+cd app
+npm run dev
 ```
 
 ### Alternative 2
-Clone the sample app's git repo `git clone
-   https://github.com/eserozvataf/dart-app.git` - and checkout the [tagged
-   release](https://github.com/eserozvataf/dart-app/releases) you'd like to
+Clone a sample app's git repo `git clone
+   https://github.com/eserozvataf/dart-react-app.git` - and checkout the [tagged
+   release](https://github.com/eserozvataf/dart-react-app/releases) you'd like to
    use.
 
-Execute `npm install` to install dependencies for development environment.
+Execute `npm install` to install dependencies. Then run `npm run dev` for starting
+development environment.
 
 
 ## Dart Tasks
@@ -77,10 +84,8 @@ Use `dart [task]` command in project folder to execute tasks defined in `package
 ## Todo List
 
 - Eject
-- Helmet
 - BrowserSync support
 - Service Workers
-- Dynamic Code Splitting
 
 See [GitHub Projects](https://github.com/eserozvataf/dart/projects) for more.
 
@@ -88,7 +93,6 @@ See [GitHub Projects](https://github.com/eserozvataf/dart/projects) for more.
 ## Requirements
 
 * node.js (https://nodejs.org/)
-
 
 
 ## License
