@@ -18,12 +18,13 @@ const startupArgs = {
 };
 
 import startupExecutor from './startupExecutor';
+
 const startupObj = startupExecutor(startupArgs);
 
 const targetElement = document.getElementsByTagName('app')[0];
-const isSsr = (targetElement.childNodes.length > 0);
+const isUpdate = (targetElement.childNodes.length > 0);
 
-startupObj.clientRender(targetElement, isSsr);
+startupObj.clientRender(targetElement, isUpdate);
 
 // webpack
 if (module.hot !== undefined) {
@@ -33,6 +34,6 @@ if (module.hot !== undefined) {
                 console.error('Cannot apply HMR update.', err);
             }
         },
-        () => startupObj.clientUpdateRender(targetElement),
+        () => startupObj.clientRender(targetElement, true),
     );
 }

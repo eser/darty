@@ -10,6 +10,7 @@ const startupArgs = {
 };
 
 import startupExecutor from './startupExecutor';
+
 const startupObj = startupExecutor(startupArgs);
 
 export {
