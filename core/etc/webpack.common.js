@@ -59,6 +59,14 @@ const commonConfig = (name) => configWrapper((vars) => {
                     ],
                     // exclude: /node_modules/,
                 },
+                {
+                    test: /\.json$/,
+                    use: [
+                        {
+                            loader: 'json-loader',
+                        }
+                    ],
+                },
             ],
         },
 
@@ -76,7 +84,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                     baseUrl: vars.appRoot,
                 }),
             ],
-            alias: (manifest.dependencyAliases || {}),
+            alias: (vars.manifest.dependencyAliases || {}),
         },
 
         plugins: [

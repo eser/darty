@@ -1,3 +1,5 @@
+const path = require('path');
+
 function varsConstructor(env = 'development', argv = {}) {
     const appRoot = process.cwd();
     const dartRoot = path.resolve(__dirname, '../../');
