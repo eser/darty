@@ -15,6 +15,7 @@ if (global.fetch === undefined) {
 
 // startup
 const startupArgs = {
+    platform: 'browser',
 };
 
 import startupExecutor from './startupExecutor';

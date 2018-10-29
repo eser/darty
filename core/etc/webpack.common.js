@@ -59,14 +59,6 @@ const commonConfig = (name) => configWrapper((vars) => {
                     ],
                     // exclude: /node_modules/,
                 },
-                {
-                    test: /\.json$/,
-                    use: [
-                        {
-                            loader: 'json-loader',
-                        }
-                    ],
-                },
             ],
         },
 

@@ -7,6 +7,7 @@ if (global.fetch === undefined) {
 
 // startup
 const startupArgs = {
+    platform: 'server',
 };
 
 import startupExecutor from './startupExecutor';
