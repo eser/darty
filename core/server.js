@@ -11,7 +11,7 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const pwd = process.cwd();
 
 const serverRenderer = (req, res, next) => {
-    const startupObj = require(`${pwd}/dist/server`).default;
+    const startupObj = require(`${pwd}/dist/server`);
 
     const filePath = path.join(pwd, 'dist/index.html');
 
