@@ -1,9 +1,10 @@
 const varsConstructor = require('./varsConstructor');
 
 const vars = varsConstructor();
+const manifest = vars.manifest;
 
 module.exports = {
-    "extends": (vars.linter.extends || []),
+    "extends": (manifest.linter && manifest.linter.extends) || [],
     "env": {
         "commonjs": true,
         "browser": true,
@@ -13,8 +14,8 @@ module.exports = {
     "parserOptions": {
         "sourceType": "module",
         "ecmaFeatures": {
-            "jsx": (vars.features && vars.features.jsx),
+            "jsx": (manifest.features && manifest.features.jsx) || true,
         },
     },
-    "rules": (vars.linter.rules || {}),
+    "rules": (manifest.linter && manifest.linter.rules) || {},
 };
