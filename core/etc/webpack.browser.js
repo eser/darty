@@ -78,7 +78,7 @@ const browserConfig = configWrapper((vars) => {
                 ...common.module.rules,
 
                 {
-                    test: /\.scss$/,
+                    test: /\.s[ac]ss$/,
                     use: [
                         ExtractCssChunksPlugin.loader,
                         {

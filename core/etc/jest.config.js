@@ -26,6 +26,6 @@ module.exports = {
         "mjs"
     ],
     moduleNameMapper: {
-        "^.+\\.(css|scss)$": "identity-obj-proxy"
+        "^.+\\.(css|s[ac]ss)$": "identity-obj-proxy"
     },
 };

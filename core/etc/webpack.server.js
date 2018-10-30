@@ -42,7 +42,7 @@ const serverConfig = configWrapper((vars) => {
             rules: [
                 ...common.module.rules,
                 {
-                    test: /\.scss$/,
+                    test: /\.s[ac]ss$/,
                     use: [
                         {
                             loader: 'css-loader/locals',
