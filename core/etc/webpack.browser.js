@@ -3,7 +3,6 @@ const { configWrapper, commonConfig } = require('./webpack.common');
 
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const browserConfig = configWrapper((vars) => {
@@ -76,64 +75,6 @@ const browserConfig = configWrapper((vars) => {
 
             rules: [
                 ...common.module.rules,
-
-                {
-                    test: /\.s[ac]ss$/,
-                    use: [
-                        ExtractCssChunksPlugin.loader,
-                        {
-                            loader: 'typings-for-css-modules-loader',
-                            options: {
-                                importLoaders: 2,
-                                sourceMap: true,
-                                modules: true,
-                                namedExport: true,
-                                camelCase: true,
-                                // localIdentName: '[local]___[hash:base64:5]',
-                                localIdentName: '[local]',
-                            },
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                sourceMap: true,
-                                path: __dirname,
-                            },
-                        },
-                        {
-                            loader: 'sass-loader',
-                            options: {
-                                sourceMap: true,
-                            },
-                        },
-                    ],
-                },
-                {
-                    test: /\.css$/,
-                    use: [
-                        ExtractCssChunksPlugin.loader,
-                        {
-                            loader: 'typings-for-css-modules-loader',
-                            options: {
-                                importLoaders: 2,
-                                sourceMap: true,
-                                modules: true,
-                                namedExport: true,
-                                camelCase: true,
-                                // localIdentName: '[local]___[hash:base64:5]',
-                                localIdentName: '[local]',
-                            },
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                parser: 'postcss-js',
-                                sourceMap: true,
-                                path: __dirname,
-                            },
-                        },
-                    ],
-                },
                 {
                     test: /\.(eot|ttf|jpe?g|png|gif|ico)([\?]?.*)$/,
                     use: [
@@ -177,13 +118,6 @@ const browserConfig = configWrapper((vars) => {
 
         plugins: [
             ...common.plugins,
-            new ExtractCssChunksPlugin({
-                filename: '[name].css',
-                // chunkFilename: '[id].[chunkhash].css',
-                chunkFilename: '[id].css',
-                hot: true,
-                cssModules: true,
-            }),
             new CopyWebpackPlugin(
                 vars.manifest.staticFiles.map(x => ({ from: x, to: './', flatten: true })),
             ),

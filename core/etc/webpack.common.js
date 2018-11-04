@@ -1,6 +1,7 @@
 /* eslint-env node */
 const path = require('path');
 const webpack = require('webpack');
+const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
@@ -47,7 +48,6 @@ const commonConfig = (name) => configWrapper((vars) => {
                 },
                 {
                     test: /\.([tj]sx?|mjs)$/,
-                    enforce: 'pre',
                     use: [
                         {
                             loader: 'ts-loader',
@@ -58,6 +58,63 @@ const commonConfig = (name) => configWrapper((vars) => {
                         },
                     ],
                     // exclude: /node_modules/,
+                },
+                {
+                    test: /\.s[ac]ss$/,
+                    use: [
+                        ExtractCssChunksPlugin.loader,
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                modules: true,
+                                // localIdentName: '[local]___[hash:base64:5]',
+                                localIdentName: '[local]',
+                                sourceMap: true,
+                                camelCase: true,
+                                importLoaders: 2,
+                            },
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                sourceMap: true,
+                                path: __dirname,
+                            },
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true,
+                            },
+                        },
+                    ],
+                },
+                {
+                    test: /\.css$/,
+                    use: [
+                        ExtractCssChunksPlugin.loader,
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                modules: true,
+                                // localIdentName: '[local]___[hash:base64:5]',
+                                localIdentName: '[local]',
+                                sourceMap: true,
+                                camelCase: true,
+                                importLoaders: 1,
+                            },
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                parser: 'postcss-js',
+                                sourceMap: true,
+                                path: __dirname,
+                            },
+                        },
+                    ],
                 },
             ],
         },
@@ -87,10 +144,17 @@ const commonConfig = (name) => configWrapper((vars) => {
                     DARTY_VARS: JSON.stringify(vars),
                 },
             }),
-            new webpack.WatchIgnorePlugin([
-                /css\.d\.ts$/
-            ]),
+            // new webpack.WatchIgnorePlugin([
+            //     /css\.d\.ts$/
+            // ]),
             new CaseSensitivePathsPlugin(),
+            new ExtractCssChunksPlugin({
+                filename: '[name].css',
+                // chunkFilename: '[id].[chunkhash].css',
+                chunkFilename: '[id].css',
+                hot: true,
+                cssModules: true,
+            }),
             new DotenvPlugin({
                 // safe: `${vars.dartyRoot}/templates/.env.default`,
                 // path: './.env',

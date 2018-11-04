@@ -42,22 +42,6 @@ const serverConfig = configWrapper((vars) => {
             rules: [
                 ...common.module.rules,
                 {
-                    test: /\.s[ac]ss$/,
-                    use: [
-                        {
-                            loader: 'css-loader/locals',
-                        },
-                    ],
-                },
-                {
-                    test: /\.css$/,
-                    use: [
-                        {
-                            loader: 'css-loader/locals',
-                        },
-                    ],
-                },
-                {
                     test: /\.(eot|ttf|jpe?g|png|gif|ico)([\?]?.*)$/,
                     use: [
                         {
@@ -101,6 +85,9 @@ const serverConfig = configWrapper((vars) => {
         plugins: [
             ...common.plugins,
             new webpack.NamedModulesPlugin(),
+            new webpack.optimize.LimitChunkCountPlugin({
+                maxChunks: 1,
+            }),
         ],
     };
 });
