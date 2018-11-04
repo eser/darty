@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-    container_name: dart-app
+    container_name: darty-app
     build: .
     restart: always
     ports:

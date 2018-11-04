@@ -2,7 +2,7 @@ const path = require('path');
 
 function varsConstructor(env = 'development', argv = {}) {
     const appRoot = process.cwd();
-    const dartRoot = path.resolve(__dirname, '../../');
+    const dartyRoot = path.resolve(__dirname, '../../');
 
     const envValue = argv.mode || process.env.NODE_ENV || 'development';
     const isProduction = (envValue === 'production');
@@ -38,7 +38,7 @@ function varsConstructor(env = 'development', argv = {}) {
         manifest,
         appRoot,
         presetRoot,
-        dartRoot,
+        dartyRoot,
         envValue,
         isProduction,
     };

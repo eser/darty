@@ -14,7 +14,7 @@ function containerize(imageName) {
 //     if (imageName === undefined) {
 //         console.error(`${colors.red('specify a image name to create docker container.')}
 
-// ${colors.white('example:')} 'npm run containerize dart-app'
+// ${colors.white('example:')} 'npm run containerize darty-app'
 // `);
 
 //         process.exit(1);

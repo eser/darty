@@ -71,7 +71,7 @@ const commonConfig = (name) => configWrapper((vars) => {
             mainFields: [ 'main', 'module' ],
             plugins: [
                 new TsconfigPathsPlugin({
-                    configFile: `${vars.dartRoot}/core/etc/tsconfig.json`,
+                    configFile: `${vars.dartyRoot}/core/etc/tsconfig.json`,
                     extensions: [ '.ts', '.tsx', '.js', '.jsx', '.mjs' ],
                     baseUrl: vars.appRoot,
                 }),
@@ -84,7 +84,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                 'process.env': {
                     NODE_ENV: JSON.stringify(vars.envValue),
                     PLATFORM: JSON.stringify(name),
-                    DART_VARS: JSON.stringify(vars),
+                    DARTY_VARS: JSON.stringify(vars),
                 },
             }),
             new webpack.WatchIgnorePlugin([
@@ -92,7 +92,7 @@ const commonConfig = (name) => configWrapper((vars) => {
             ]),
             new CaseSensitivePathsPlugin(),
             new DotenvPlugin({
-                // safe: `${vars.dartRoot}/templates/.env.default`,
+                // safe: `${vars.dartyRoot}/templates/.env.default`,
                 // path: './.env',
                 silent: true,
             }),
