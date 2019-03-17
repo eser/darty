@@ -11,21 +11,23 @@ function copyFile(sourceFile, targetFile) {
 }
 
 function containerize(imageName) {
-//     if (imageName === undefined) {
-//         console.error(`${colors.red('specify a image name to create docker container.')}
+    /*
+    if (imageName === undefined) {
+        console.error(`${colors.red('specify a image name to create docker container.')}
 
-// ${colors.white('example:')} 'npm run containerize darty-app'
-// `);
+${colors.white('example:')} 'npm run containerize darty-app'
+`);
 
-//         process.exit(1);
-//         return;
-//     }
+        process.exit(1);
+        return;
+    }
 
-    // let [ imageName_, imageTag ] = imageName.split(':');
+    let [ imageName_, imageTag ] = imageName.split(':');
 
-    // if (imageTag === undefined) {
-    //     imageTag = 'latest';
-    // }
+    if (imageTag === undefined) {
+        imageTag = 'latest';
+    }
+    */
 
     const dockerfileFilePath = path.resolve(__dirname, '../../core/etc/Dockerfile');
     const dockerComposeFilePath = path.resolve(__dirname, '../../core/etc/docker-compose.yml');
