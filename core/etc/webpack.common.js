@@ -76,7 +76,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                                 // localIdentName: '[local]___[hash:base64:5]',
                                 localIdentName: '[local]',
                                 sourceMap: true,
-                                camelCase: true,
+                                localsConvention: 'camelCase',
                                 importLoaders: 2,
                             },
                         },
