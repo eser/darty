@@ -74,7 +74,7 @@ const browserConfig = configWrapper((vars) => {
             rules: [
                 ...common.module.rules,
                 {
-                    test: /\.(eot|ttf|jpe?g|png|gif|ico)([\?]?.*)$/,
+                    test: /\.(eot|ttf|jpe?g|png|gif|ico)([\?]?.*)$/i,
                     use: [
                         {
                             loader: 'file-loader',
@@ -86,7 +86,7 @@ const browserConfig = configWrapper((vars) => {
                     ],
                 },
                 {
-                    test: /\.(woff2?|ttf|otf|eot)([\?]?.*)$/,
+                    test: /\.(woff2?|ttf|otf|eot)([\?]?.*)$/i,
                     use: [
                         {
                             loader: 'url-loader',

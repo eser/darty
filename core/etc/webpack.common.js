@@ -47,7 +47,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                     },
                 },
                 {
-                    test: /\.([tj]sx?|mjs)$/,
+                    test: /\.([tj]sx?|mjs)$/i,
                     use: [
                         {
                             loader: 'ts-loader',
@@ -60,7 +60,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                     // exclude: /node_modules/,
                 },
                 {
-                    test: /\.(sa|sc|c)ss$/,
+                    test: /\.(sa|sc|c)ss$/i,
                     use: [
                         {
                             // After all CSS loaders we use plugin to do his work.
@@ -72,9 +72,11 @@ const commonConfig = (name) => configWrapper((vars) => {
                             // This loader resolves url() and @imports inside CSS
                             loader: 'css-loader',
                             options: {
-                                modules: true,
-                                // localIdentName: '[local]___[hash:base64:5]',
-                                localIdentName: '[local]',
+                                modules: {
+                                    mode: 'local',
+                                    // localIdentName: '[local]___[hash:base64:5]',
+                                    localIdentName: '[local]',
+                                },
                                 sourceMap: true,
                                 localsConvention: 'camelCase',
                                 importLoaders: 2,
@@ -94,7 +96,10 @@ const commonConfig = (name) => configWrapper((vars) => {
                             // First we transform SASS to standard CSS
                             loader: 'sass-loader',
                             options: {
-                                // implementation: require('sass'),
+                                implementation: require('sass'),
+                                sassOptions: {
+                                    fiber: require('fibers'),
+                                },
                                 sourceMap: true,
                             },
                         },

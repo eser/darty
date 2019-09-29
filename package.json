@@ -8,7 +8,7 @@
     "boilerplate",
     "starter"
   ],
-  "version": "0.51.1",
+  "version": "0.51.2",
   "homepage": "https://github.com/eserozvataf/darty",
   "author": "Eser Ozvataf <eser@ozvataf.com> (https://twitter.com/eser)",
   "contributors": [
@@ -84,6 +84,8 @@
     "@types/webpack": "^4.39.2",
     "eslint": "^6.5.0",
     "eslint-config-eser": "^2.1.2",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "fibers": "^4.0.1",
+    "sass": "^1.22.12"
   }
 }

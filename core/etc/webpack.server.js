@@ -42,7 +42,7 @@ const serverConfig = configWrapper((vars) => {
             rules: [
                 ...common.module.rules,
                 {
-                    test: /\.(eot|ttf|jpe?g|png|gif|ico)([\?]?.*)$/,
+                    test: /\.(eot|ttf|jpe?g|png|gif|ico)([\?]?.*)$/i,
                     use: [
                         {
                             loader: 'file-loader?emitFile=false',
@@ -54,7 +54,7 @@ const serverConfig = configWrapper((vars) => {
                     ],
                 },
                 {
-                    test: /\.(woff2?)([\?]?.*)$/,
+                    test: /\.(woff2?)([\?]?.*)$/i,
                     use: [
                         {
                             loader: 'url-loader?emitFile=false',
@@ -66,7 +66,7 @@ const serverConfig = configWrapper((vars) => {
                     ],
                 },
                 {
-                    test: /\.(svg)([\?]?.*)$/,
+                    test: /\.(svg)([\?]?.*)$/i,
                     use: [
                         {
                             loader: 'url-loader?emitFile=false',
