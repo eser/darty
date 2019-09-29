@@ -6,7 +6,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
 const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const configWrapper = (targetConfigFunction) => (env, argv) => {
     const varsConstructor = require('./varsConstructor');
@@ -60,10 +60,16 @@ const commonConfig = (name) => configWrapper((vars) => {
                     // exclude: /node_modules/,
                 },
                 {
-                    test: /\.s[ac]ss$/,
+                    test: /\.(sa|sc|c)ss$/,
                     use: [
-                        ExtractCssChunksPlugin.loader,
                         {
+                            // After all CSS loaders we use plugin to do his work.
+                            // It gets all transformed CSS and extracts it into separate
+                            // single bundled file
+                            loader: ExtractCssChunksPlugin.loader,
+                        },
+                        {
+                            // This loader resolves url() and @imports inside CSS
                             loader: 'css-loader',
                             options: {
                                 modules: true,
@@ -75,43 +81,21 @@ const commonConfig = (name) => configWrapper((vars) => {
                             },
                         },
                         {
+                            // Then we apply postCSS fixes like autoprefixer and minifying
                             loader: 'postcss-loader',
                             options: {
                                 ident: 'postcss',
+                                // parser: 'postcss-js',
                                 sourceMap: true,
                                 path: __dirname,
                             },
                         },
                         {
+                            // First we transform SASS to standard CSS
                             loader: 'sass-loader',
                             options: {
+                                // implementation: require('sass'),
                                 sourceMap: true,
-                            },
-                        },
-                    ],
-                },
-                {
-                    test: /\.css$/,
-                    use: [
-                        ExtractCssChunksPlugin.loader,
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                modules: true,
-                                // localIdentName: '[local]___[hash:base64:5]',
-                                localIdentName: '[local]',
-                                sourceMap: true,
-                                camelCase: true,
-                                importLoaders: 1,
-                            },
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                ident: 'postcss',
-                                parser: 'postcss-js',
-                                sourceMap: true,
-                                path: __dirname,
                             },
                         },
                     ],
@@ -161,21 +145,21 @@ const commonConfig = (name) => configWrapper((vars) => {
                 silent: true,
             }),
             new AsyncChunkNames(),
-            new BundleAnalyzerPlugin({
-                // Start analyzer HTTP-server.
-                // You can use this plugin to just generate Webpack Stats JSON file by setting
-                // `startAnalyzer` to `false` and `generateStatsFile` to `true`.
-                startAnalyzer: false,
-                // Analyzer HTTP-server port
-                analyzerPort: 8888,
-                // Automatically open analyzer page in default browser if `startAnalyzer` is `true`
-                openAnalyzer: true,
-                // If `true`, Webpack Stats JSON file will be generated in bundles output directory
-                generateStatsFile: true,
-                // Name of Webpack Stats JSON file that will be generated if `generateStatsFile`
-                // is `true`. Relative to bundles output directory.
-                statsFilename: `${name}-stats.json`,
-            }),
+            // new BundleAnalyzerPlugin({
+            //     // Start analyzer HTTP-server.
+            //     // You can use this plugin to just generate Webpack Stats JSON file by setting
+            //     // `startAnalyzer` to `false` and `generateStatsFile` to `true`.
+            //     startAnalyzer: false,
+            //     // Analyzer HTTP-server port
+            //     analyzerPort: 8888,
+            //     // Automatically open analyzer page in default browser if `startAnalyzer` is `true`
+            //     openAnalyzer: true,
+            //     // If `true`, Webpack Stats JSON file will be generated in bundles output directory
+            //     generateStatsFile: true,
+            //     // Name of Webpack Stats JSON file that will be generated if `generateStatsFile`
+            //     // is `true`. Relative to bundles output directory.
+            //     statsFilename: `${name}-stats.json`,
+            // }),
         ],
 
         stats: {

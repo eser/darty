@@ -50,7 +50,7 @@ const browserConfig = configWrapper((vars) => {
                         // async + async chunks
                         chunks: 'all',
                         // import file path containing node_modules
-                        test: /node_modules/,
+                        test: /[\\\/]node_modules[\\\/]/,
                         // priority
                         priority: 20,
                     },
@@ -65,9 +65,7 @@ const browserConfig = configWrapper((vars) => {
                     },
                 },
             },
-            // runtimeChunk: {
-            //     name: 'bootstrap'
-            // },
+            runtimeChunk: 'single',
         },
 
         module: {
@@ -88,7 +86,7 @@ const browserConfig = configWrapper((vars) => {
                     ],
                 },
                 {
-                    test: /\.(woff2?)([\?]?.*)$/,
+                    test: /\.(woff2?|ttf|otf|eot)([\?]?.*)$/,
                     use: [
                         {
                             loader: 'url-loader',
