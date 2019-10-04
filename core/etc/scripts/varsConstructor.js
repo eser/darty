@@ -2,7 +2,7 @@ const path = require('path');
 
 function varsConstructor(env = 'development', argv = {}) {
     const appRoot = process.cwd();
-    const dartyRoot = path.resolve(__dirname, '../../');
+    const dartyRoot = path.resolve(__dirname, '../../../');
 
     const envValue = argv.mode || process.env.NODE_ENV || 'development';
     const isProduction = (envValue === 'production');

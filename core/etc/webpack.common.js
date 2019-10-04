@@ -8,8 +8,11 @@ const DotenvPlugin = require('dotenv-webpack');
 const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const pathFinder = require('./scripts/pathFinder');
+const pathMapFinder = require('./scripts/pathMapFinder');
+
 const configWrapper = (targetConfigFunction) => (env, argv) => {
-    const varsConstructor = require('./varsConstructor');
+    const varsConstructor = require('./scripts/varsConstructor');
 
     const vars = varsConstructor(env, argv);
 
@@ -17,6 +20,51 @@ const configWrapper = (targetConfigFunction) => (env, argv) => {
 };
 
 const commonConfig = (name) => configWrapper((vars) => {
+    const tsConfigPath = pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/core/etc/tsconfig.json`
+
+    const styleLoader = {
+        // creates style nodes from JS strings
+        loader: 'style-loader',
+    };
+
+    const extractCssChunksPluginLoader = {
+        // After all CSS loaders we use plugin to do his work.
+        // It gets all transformed CSS and extracts it into separate
+        // single bundled file
+        loader: ExtractCssChunksPlugin.loader,
+    };
+
+    const cssLoader = {
+        // This loader resolves url() and @imports inside CSS
+        loader: 'css-loader',
+        options: {
+            modules: {
+                mode: 'local',
+                // localIdentName: '[local]___[hash:base64:5]',
+                localIdentName: '[local]',
+            },
+            sourceMap: true,
+            localsConvention: 'camelCase',
+            importLoaders: 2,
+        },
+    };
+
+    const postCssLoader = {
+        // Then we apply postCSS fixes like autoprefixer and minifying
+        loader: 'postcss-loader',
+        options: {
+            ident: 'postcss',
+            // parser: 'postcss-js',
+            sourceMap: true,
+            config: {
+                path: pathMapFinder({
+                    [`${__dirname}/postcss.config.js`]: __dirname,
+                    [`${vars.appRoot}/postcss.config.js`]: vars.appRoot,
+                }),
+            },
+        },
+    };
+
     return {
         mode: vars.isProduction ? 'production' : 'development',
         devtool: vars.isProduction ? 'source-map' : 'cheap-module-eval-source-map',
@@ -47,51 +95,34 @@ const commonConfig = (name) => configWrapper((vars) => {
                     },
                 },
                 {
-                    test: /\.([tj]sx?|mjs)$/i,
+                    test: /\.([tj]sx?)$/i,
                     use: [
                         {
                             loader: 'ts-loader',
                             options: {
                                 transpileOnly: true,
-                                configFile: `${__dirname}/tsconfig.json`,
+                                configFile: tsConfigPath,
                             },
                         },
                     ],
                     // exclude: /node_modules/,
                 },
                 {
-                    test: /\.(sa|sc|c)ss$/i,
+                    test: /\.css$/i,
                     use: [
-                        {
-                            // After all CSS loaders we use plugin to do his work.
-                            // It gets all transformed CSS and extracts it into separate
-                            // single bundled file
-                            loader: ExtractCssChunksPlugin.loader,
-                        },
-                        {
-                            // This loader resolves url() and @imports inside CSS
-                            loader: 'css-loader',
-                            options: {
-                                modules: {
-                                    mode: 'local',
-                                    // localIdentName: '[local]___[hash:base64:5]',
-                                    localIdentName: '[local]',
-                                },
-                                sourceMap: true,
-                                localsConvention: 'camelCase',
-                                importLoaders: 2,
-                            },
-                        },
-                        {
-                            // Then we apply postCSS fixes like autoprefixer and minifying
-                            loader: 'postcss-loader',
-                            options: {
-                                ident: 'postcss',
-                                // parser: 'postcss-js',
-                                sourceMap: true,
-                                path: __dirname,
-                            },
-                        },
+                        styleLoader,
+                        extractCssChunksPluginLoader,
+                        cssLoader,
+                        postCssLoader,
+                    ],
+                },
+                {
+                    test: /\.(sa|sc)ss$/i,
+                    use: [
+                        styleLoader,
+                        extractCssChunksPluginLoader,
+                        cssLoader,
+                        postCssLoader,
                         {
                             // First we transform SASS to standard CSS
                             loader: 'sass-loader',
@@ -105,11 +136,72 @@ const commonConfig = (name) => configWrapper((vars) => {
                         },
                     ],
                 },
+                {
+                    test: /\.less$/i,
+                    use: [
+                        styleLoader,
+                        extractCssChunksPluginLoader,
+                        cssLoader,
+                        postCssLoader,
+                        {
+                            // First we transform LESS to standard CSS
+                            loader: 'less-loader',
+                        },
+                    ],
+                },
+                // {
+                //     test: /\.(sa|sc|c)ss$/i,
+                //     use: [
+                //         {
+                //             // After all CSS loaders we use plugin to do his work.
+                //             // It gets all transformed CSS and extracts it into separate
+                //             // single bundled file
+                //             loader: ExtractCssChunksPlugin.loader,
+                //         },
+                //         {
+                //             // This loader resolves url() and @imports inside CSS
+                //             loader: 'css-loader',
+                //             options: {
+                //                 modules: {
+                //                     mode: 'local',
+                //                     // localIdentName: '[local]___[hash:base64:5]',
+                //                     localIdentName: '[local]',
+                //                 },
+                //                 sourceMap: true,
+                //                 localsConvention: 'camelCase',
+                //                 importLoaders: 2,
+                //             },
+                //         },
+                //         {
+                //             // Then we apply postCSS fixes like autoprefixer and minifying
+                //             loader: 'postcss-loader',
+                //             options: {
+                //                 ident: 'postcss',
+                //                 // parser: 'postcss-js',
+                //                 sourceMap: true,
+                //                 config: {
+                //                     path: __dirname,
+                //                 },
+                //             },
+                //         },
+                //         {
+                //             // First we transform SASS to standard CSS
+                //             loader: 'sass-loader',
+                //             options: {
+                //                 implementation: require('sass'),
+                //                 sassOptions: {
+                //                     fiber: require('fibers'),
+                //                 },
+                //                 sourceMap: true,
+                //             },
+                //         },
+                //     ],
+                // },
             ],
         },
 
         resolve: {
-            extensions: [ '.ts', '.tsx', '.js', '.jsx', '.mjs' ],
+            extensions: [ '.ts', '.tsx', '.js', '.jsx' ],
             modules: [
                 path.join(vars.appRoot, 'src'),
                 path.join(vars.appRoot, 'node_modules'),
@@ -117,8 +209,8 @@ const commonConfig = (name) => configWrapper((vars) => {
             mainFields: [ 'main', 'module' ],
             plugins: [
                 new TsconfigPathsPlugin({
-                    configFile: `${vars.dartyRoot}/core/etc/tsconfig.json`,
-                    extensions: [ '.ts', '.tsx', '.js', '.jsx', '.mjs' ],
+                    configFile: tsConfigPath,
+                    extensions: [ '.ts', '.tsx', '.js', '.jsx' ],
                     baseUrl: vars.appRoot,
                 }),
             ],
