@@ -16,6 +16,7 @@ const commands = [
     'lint',
     'start',
     'test',
+    'test:coverage',
 ];
 
 const args = process.argv.slice(2);
