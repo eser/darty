@@ -1,4 +1,5 @@
 const shellSpawn = require('../utils/shellSpawn');
+const pathFinder = require('../../core/etc/scripts/pathFinder');
 const path = require('path');
 const fs = require('fs');
 
@@ -29,9 +30,17 @@ ${colors.white('example:')} 'npm run containerize darty-app'
     }
     */
 
-    const dockerfileFilePath = path.resolve(__dirname, '../../core/etc/Dockerfile');
-    const dockerComposeFilePath = path.resolve(__dirname, '../../core/etc/docker-compose.yml');
-    const dockerIgnoreFilePath = path.resolve(__dirname, '../../core/etc/.dockerignore');
+    const dockerfileDefaultFilePath = path.resolve(__dirname, '../../core/etc/Dockerfile');
+    const dockerComposeDefaultFilePath = path.resolve(__dirname, '../../core/etc/docker-compose.yml');
+    const dockerIgnoreDefaultFilePath = path.resolve(__dirname, '../../core/etc/.dockerignore');
+
+    const dockerfileLocalFilePath = './Dockerfile';
+    const dockerComposeLocalFilePath = './docker-compose.yml';
+    const dockerIgnoreLocalFilePath = './.dockerignore';
+
+    const dockerfileFilePath = pathFinder(dockerfileLocalFilePath, dockerfileDefaultFilePath);
+    const dockerComposeFilePath = pathFinder(dockerComposeLocalFilePath, dockerComposeDefaultFilePath);
+    const dockerIgnoreFilePath = pathFinder(dockerIgnoreLocalFilePath, dockerIgnoreDefaultFilePath);
 
     const appName = path.basename(process.cwd());
 

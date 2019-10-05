@@ -1,12 +1,20 @@
-const path = require('path');
+const pathFinder = require('../etc/scripts/pathFinder');
+
+const tsConfigPath = pathFinder(`./tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/core/etc/tsconfig.json`
 
 // const presetManifest = {
 // };
 
+// TODO make this file case-insensitive
+
 module.exports = {
     globals: {
         'ts-jest': {
-            tsConfig: path.resolve(__dirname, 'tsconfig.json'),
+            tsConfig: tsConfigPath,
+            warnOnly: true,
+            diagnostics: {
+                pathRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.([jt]sx?)$',
+            },
         },
     },
     testEnvironment: 'node',
