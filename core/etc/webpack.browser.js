@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const browserConfig = configWrapper((vars) => {
-    const common = commonConfig('browser')(vars.env, vars.argv);
+    const common = commonConfig('browser', true)(vars.env, vars.argv);
 
     let optionalPlugins = [];
 

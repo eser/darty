@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 
 const serverConfig = configWrapper((vars) => {
-    const common = commonConfig('server')(vars.env, vars.argv);
+    const common = commonConfig('server', false)(vars.env, vars.argv);
 
     // const packageJson = require(`${vars.appRoot}/package.json`);
     // const whiteListModules = [

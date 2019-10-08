@@ -24,15 +24,6 @@ function writeToFile(target, content) {
 module.exports = (ctx) => {
     const isProduction = (ctx.env === 'production');
 
-    const configPostCssModules = {
-        generateScopedName: '[name]__[local]___[hash:base64:5]',
-        getJSON: (cssFileName, json) => {
-            const targetPath = path.relative(__dirname, cssFileName);
-
-            writeToFile(`./dist/styles/${targetPath}.json`, json);
-        },
-    };
-
     const configAutoprefixer = {
         browsers: [ 'last 2 versions', '> 5%' ],
     };
@@ -49,7 +40,6 @@ module.exports = (ctx) => {
     return {
         plugins: {
             'postcss-import': { skipDuplicates: true },
-            'postcss-modules': isProduction ? configPostCssModules : false,
             autoprefixer: isProduction ? configAutoprefixer : false,
             cssnano: isProduction ? configCssNano : false,
             'postcss-nesting': true,

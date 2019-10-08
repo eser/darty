@@ -19,8 +19,9 @@ const configWrapper = (targetConfigFunction) => (env, argv) => {
     return targetConfigFunction(vars);
 };
 
-const commonConfig = (name) => configWrapper((vars) => {
+const commonConfig = (name, hasDocument) => configWrapper((vars) => {
     const tsConfigPath = pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/core/etc/tsconfig.json`
+    const useDocumentStyleInjection = hasDocument && !vars.isProduction;
 
     const styleLoader = {
         // creates style nodes from JS strings
@@ -34,7 +35,7 @@ const commonConfig = (name) => configWrapper((vars) => {
         loader: ExtractCssChunksPlugin.loader,
     };
 
-    const cssLoader = {
+    const cssLoader = (importLoaders) => ({
         // This loader resolves url() and @imports inside CSS
         loader: 'css-loader',
         options: {
@@ -45,9 +46,9 @@ const commonConfig = (name) => configWrapper((vars) => {
             },
             sourceMap: true,
             localsConvention: 'camelCase',
-            importLoaders: 2,
+            importLoaders: importLoaders,
         },
-    };
+    });
 
     const postCssLoader = {
         // Then we apply postCSS fixes like autoprefixer and minifying
@@ -110,18 +111,16 @@ const commonConfig = (name) => configWrapper((vars) => {
                 {
                     test: /\.css$/i,
                     use: [
-                        styleLoader,
-                        extractCssChunksPluginLoader,
-                        cssLoader,
+                        useDocumentStyleInjection ? extractCssChunksPluginLoader : styleLoader,
+                        cssLoader(1),
                         postCssLoader,
                     ],
                 },
                 {
                     test: /\.(sa|sc)ss$/i,
                     use: [
-                        styleLoader,
-                        extractCssChunksPluginLoader,
-                        cssLoader,
+                        useDocumentStyleInjection ? extractCssChunksPluginLoader : styleLoader,
+                        cssLoader(2),
                         postCssLoader,
                         {
                             // First we transform SASS to standard CSS
@@ -139,9 +138,8 @@ const commonConfig = (name) => configWrapper((vars) => {
                 {
                     test: /\.less$/i,
                     use: [
-                        styleLoader,
-                        extractCssChunksPluginLoader,
-                        cssLoader,
+                        useDocumentStyleInjection ? extractCssChunksPluginLoader : styleLoader,
+                        cssLoader(2),
                         postCssLoader,
                         {
                             // First we transform LESS to standard CSS
@@ -233,7 +231,7 @@ const commonConfig = (name) => configWrapper((vars) => {
                 filename: '[name].css',
                 // chunkFilename: '[id].[chunkhash].css',
                 chunkFilename: '[id].css',
-                hot: true,
+                hot: !vars.isProduction,
                 cssModules: true,
             }),
             new DotenvPlugin({
