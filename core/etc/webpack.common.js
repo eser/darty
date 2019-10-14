@@ -19,6 +19,30 @@ const configWrapper = (targetConfigFunction) => (env, argv) => {
     return targetConfigFunction(vars);
 };
 
+function dependencyAliasesConverter(entries, vars) {
+    if (entries === null || entries === undefined) {
+        return {};
+    }
+
+    return Object.keys(entries).reduce(
+        (prev, curr) => {
+            const value = entries[curr];
+
+            let newValue;
+
+            if (value[0] === '~') {
+                newValue = `${vars.appRoot}/${value.substring(1)}`;
+            }
+            else {
+                newValue = value;
+            }
+
+            return { ...prev, [curr]: newValue };
+        },
+        {},
+    );
+}
+
 const commonConfig = (name, hasDocument) => configWrapper((vars) => {
     const tsConfigPath = pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/core/etc/tsconfig.json`
     const useDocumentStyleInjection = hasDocument && !vars.isProduction;
@@ -212,7 +236,7 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
                     baseUrl: vars.appRoot,
                 }),
             ],
-            alias: (vars.manifest.dependencyAliases || {}),
+            alias: dependencyAliasesConverter(vars.manifest.dependencyAliases, vars),
         },
 
         plugins: [

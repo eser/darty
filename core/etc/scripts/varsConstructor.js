@@ -1,4 +1,5 @@
 const path = require('path');
+const pathFinder = require('./pathFinder');
 
 function varsConstructor(env = undefined, argv = {}) {
     const appRoot = process.cwd();
@@ -7,28 +8,29 @@ function varsConstructor(env = undefined, argv = {}) {
     const envValue = env || argv.mode || process.env.NODE_ENV || 'development';
     const isProduction = (envValue === 'production');
 
-    let manifest;
+    // load local manifest first
+    let manifest = null;
 
-    try {
-        manifest = require(`${appRoot}/manifest.json`);
+    const localManifestFile = pathFinder(`${appRoot}/manifest.js`, `${appRoot}/manifest.json`);
+
+    if (localManifestFile !== null) {
+        manifest = require(localManifestFile);
     }
-    catch (ex) {
-        manifest = {};
-    }
 
-    let presetRoot;
+    // load preset and extend manifest
+    let presetRoot = null;
 
-    if ('preset' in manifest) {
-        try {
-            presetRoot = `${appRoot}/node_modules/${manifest['preset']}`;
+    if (manifest !== null && 'preset' in manifest) {
+        presetRoot = `${appRoot}/node_modules/${manifest['preset']}`;
 
-            manifest = Object.assign(
-                {},
-                require(`${presetRoot}/manifest.json`),
-                manifest
-            );
-        }
-        catch (ex) {
+        const presetManifestFile = pathFinder(`${presetRoot}/manifest.js`, `${presetRoot}/manifest.json`);
+
+        if (presetManifestFile !== null) {
+            const presetManifest = require(presetManifestFile);
+
+            if (presetManifest !== null) {
+                manifest = { ...presetManifest, ...manifest };
+            }
         }
     }
 
