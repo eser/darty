@@ -2,7 +2,7 @@ const shellSpawn = require('../utils/shellSpawn');
 const pathFinder = require('../../core/etc/scripts/pathFinder');
 const path = require('path');
 
-function test() {
+function testCoverage() {
     const jestDefaultConfigPath = path.resolve(__dirname, '../../core/etc/jest.config.js');
     const jestLocalConfigPath = './jest.config.js';
 
@@ -11,4 +11,4 @@ function test() {
     shellSpawn('./node_modules/.bin/jest', [ '--config', jestConfigPath, '--rootDir', './', '--coverage' ]);
 }
 
-module.exports = test;
+module.exports = testCoverage;
