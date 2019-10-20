@@ -88,7 +88,9 @@ Use `darty [task]` command in project folder to execute tasks defined in `packag
 | `start`                  | Starts SSR-enabled express server                                                      |
 | `dev`                    | Enables live development environment powered by hot module reloading                   |
 | `lint`                   | Executes linter to check codebase against linting errors                               |
+| `lint:fix`               | Executes linter to check and *FIX* codebase against linting errors                     |
 | `test`                   | Runs tests to check codebase against unit testing scenerios                            |
+| `test:coverage`          | Runs tests with calculating coverage stats                                             |
 | `containerize`           | Creates containerization files and gives instructions for docker                       |
 
 

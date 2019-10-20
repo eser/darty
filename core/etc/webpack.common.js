@@ -135,7 +135,7 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
                 {
                     test: /\.css$/i,
                     use: [
-                        useDocumentStyleInjection ? extractCssChunksPluginLoader : styleLoader,
+                        useDocumentStyleInjection ? styleLoader : extractCssChunksPluginLoader,
                         cssLoader(1),
                         postCssLoader,
                     ],
@@ -143,7 +143,7 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
                 {
                     test: /\.(sa|sc)ss$/i,
                     use: [
-                        useDocumentStyleInjection ? extractCssChunksPluginLoader : styleLoader,
+                        useDocumentStyleInjection ? styleLoader : extractCssChunksPluginLoader,
                         cssLoader(2),
                         postCssLoader,
                         {
@@ -162,7 +162,7 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
                 {
                     test: /\.less$/i,
                     use: [
-                        useDocumentStyleInjection ? extractCssChunksPluginLoader : styleLoader,
+                        useDocumentStyleInjection ? styleLoader : extractCssChunksPluginLoader,
                         cssLoader(2),
                         postCssLoader,
                         {
