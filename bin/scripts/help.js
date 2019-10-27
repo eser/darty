@@ -1,5 +1,7 @@
+const log = require('../utils/log');
+
 function help() {
-    console.log('not yet');
+    log('not yet');
 }
 
 module.exports = help;

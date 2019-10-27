@@ -14,6 +14,7 @@ function locateCommandFunc(commands, arg, ...argsRest) {
     }
 
     const command = arg.replace(':', '-');
+    // eslint-disable-next-line import/no-dynamic-require, global-require
     const commandFunc = require(`../scripts/${command}`);
 
     return {

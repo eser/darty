@@ -59,5 +59,6 @@ app.listen(port, (err) => {
         return;
     }
 
+    // eslint-disable-next-line no-console
     console.log(`🌎 Server is now running at http://${hostname}:${port}.`);
 });
