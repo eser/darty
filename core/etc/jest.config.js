@@ -19,7 +19,7 @@ module.exports = {
     },
     // testEnvironment: 'node',
     roots: [
-        '<rootDir>/src',
+        '<rootDir>/src/',
     ],
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.([jt]sx?)$',
     moduleFileExtensions: [
