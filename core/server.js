@@ -2,6 +2,9 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const colors = require('colors/safe');
+
+const pkg = require('../package.json');
 
 const app = express();
 
@@ -54,11 +57,14 @@ app.all('*', serverRenderer);
 
 app.listen(port, (err) => {
     if (err) {
+        // eslint-disable-next-line no-console
         console.error(err);
 
         return;
     }
 
+    // eslint-disable-next-line no-console
+    console.log(colors.yellow(`Darty Server ${pkg.version}.`));
     // eslint-disable-next-line no-console
     console.log(`🌎 Server is now running at http://${hostname}:${port}.`);
 });
