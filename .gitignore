@@ -8,6 +8,9 @@ Thumbs.db
 # npm
 node_modules/
 
+# temp directory
+tmp/
+
 # API keys and secrets
 .env
 

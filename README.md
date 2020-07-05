@@ -1,5 +1,15 @@
 # 🎯 [Darty](https://github.com/eserozvataf/darty)
 
+[![build status][build-image]][build-url]
+[![npm version][npm-image]][npm-url]
+[![npm download][download-image]][npm-url]
+[![dependencies][dep-image]][dep-url]
+[![coverage status][coverage-image]][coverage-url]
+[![license][license-image]][license-url]
+
+
+## What is the Darty?
+
 Darty is a front-end development system to allow developers to start their projects
 immediately. By Darty's convention over configuration mindset, webpack and typescript
 compiler configurations are handled by darty's itself.
@@ -126,3 +136,16 @@ It is publicly open for any contribution. Bugfixes, new features and extra modul
 ## To Support
 
 [Visit my patreon profile at patreon.com/eserozvataf](https://www.patreon.com/eserozvataf)
+
+
+[build-image]: https://travis-ci.org/eserozvataf/darty.svg?branch=master
+[build-url]: https://travis-ci.org/eserozvataf/darty
+[npm-image]: https://img.shields.io/npm/v/darty.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/darty
+[download-image]: https://img.shields.io/npm/dt/darty.svg?style=flat-square
+[dep-image]: https://img.shields.io/david/eserozvataf/darty.svg?style=flat-square
+[dep-url]: https://github.com/eserozvataf/darty
+[coverage-image]: https://codecov.io/gh/eserozvataf/darty/branch/master/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/eserozvataf/darty
+[license-image]: https://img.shields.io/npm/l/darty.svg?style=flat-square
+[license-url]: https://github.com/eserozvataf/darty/blob/master/LICENSE

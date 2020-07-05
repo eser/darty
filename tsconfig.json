@@ -4,23 +4,21 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "allowJs": true,
-        "jsx": "react",
-        "importHelpers": false,
+        "importHelpers": true,
         "sourceMap": true,
+        "declaration": true,
         "downlevelIteration": true,
         "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "noImplicitAny": false,
         "removeComments": true,
         "strictNullChecks": true,
         "strict": true,
         "newLine": "LF",
-        "rootDirs": [
-            "./src/"
-        ],
-        "outDir": "./dist/compiled/",
+        "rootDir": "./src/",
+        "outDir": "./",
         "lib": [
-            "es2015"
+            "es5"
         ],
         "baseUrl": ".",
         "paths": {
@@ -29,6 +27,9 @@
             ]
         }
     },
+    "include": [
+        "./src/**/*"
+    ],
     "exclude": [
     ]
 }

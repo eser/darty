@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const log = require('../utils/log');
+const log = require('../log');
 
 const colors = require('colors/safe');
 
@@ -15,7 +15,7 @@ function copyFileIfNeeded(filename) {
         return;
     }
 
-    const defaultFilePath = path.resolve(__dirname, '../../core/etc/', filename);
+    const defaultFilePath = path.resolve(__dirname, '../../etc/', filename);
 
     copyFile(defaultFilePath, filename);
 }

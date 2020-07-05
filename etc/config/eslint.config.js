@@ -1,4 +1,4 @@
-const varsConstructor = require('./scripts/varsConstructor');
+const varsConstructor = require('./varsConstructor');
 
 const vars = varsConstructor();
 const manifest = vars.manifest;
