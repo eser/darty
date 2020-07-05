@@ -15,7 +15,7 @@ function copyFileIfNeeded(filename) {
         return;
     }
 
-    const defaultFilePath = path.resolve(__dirname, '../../etc/', filename);
+    const defaultFilePath = path.resolve(__dirname, '../../etc/containerization/', filename);
 
     copyFile(defaultFilePath, filename);
 }

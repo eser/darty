@@ -1,6 +1,8 @@
 /* eslint-env node */
 const path = require('path');
 const webpack = require('webpack');
+const sass = require('sass');
+const fibers = require('fibers');
 const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
@@ -9,11 +11,11 @@ const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const pathFinder = require('../../src/utils/pathFinder');
-const pathMapFinder = require('./../src/utils/pathMapFinder');
+const pathMapFinder = require('../../src/utils/pathMapFinder');
 
-const configWrapper = (targetConfigFunction) => (env, argv) => {
-    const varsConstructor = require('./varsConstructor');
+const varsConstructor = require('./varsConstructor');
 
+const configWrapper = targetConfigFunction => (env, argv) => {
     const vars = varsConstructor(env, argv);
 
     return targetConfigFunction(vars);
@@ -44,7 +46,7 @@ function dependencyAliasesConverter(entries, vars) {
 }
 
 const commonConfig = (name, hasDocument) => configWrapper((vars) => {
-    const tsConfigPath = pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/etc/tsconfig.json`
+    const tsConfigPath = pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/etc/config/tsconfig.json`
     const useDocumentStyleInjection = hasDocument && !vars.isProduction;
 
     const styleLoader = {
@@ -59,7 +61,7 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
         loader: ExtractCssChunksPlugin.loader,
     };
 
-    const cssLoader = (importLoaders) => ({
+    const cssLoader = importLoaders => ({
         // This loader resolves url() and @imports inside CSS
         loader: 'css-loader',
         options: {
@@ -150,9 +152,9 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
                             // First we transform SASS to standard CSS
                             loader: 'sass-loader',
                             options: {
-                                implementation: require('sass'),
+                                implementation: sass,
                                 sassOptions: {
-                                    fiber: require('fibers'),
+                                    fiber: fibers,
                                 },
                                 sourceMap: true,
                             },
@@ -210,9 +212,9 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
                 //             // First we transform SASS to standard CSS
                 //             loader: 'sass-loader',
                 //             options: {
-                //                 implementation: require('sass'),
+                //                 implementation: sass,
                 //                 sassOptions: {
-                //                     fiber: require('fibers'),
+                //                     fiber: fibers,
                 //                 },
                 //                 sourceMap: true,
                 //             },
@@ -266,17 +268,19 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
             new AsyncChunkNames(),
             // new BundleAnalyzerPlugin({
             //     // Start analyzer HTTP-server.
-            //     // You can use this plugin to just generate Webpack Stats JSON file by setting
-            //     // `startAnalyzer` to `false` and `generateStatsFile` to `true`.
+            //     // You can use this plugin to just generate Webpack Stats JSON file by
+            //     // setting `startAnalyzer` to `false` and `generateStatsFile` to `true`.
             //     startAnalyzer: false,
             //     // Analyzer HTTP-server port
             //     analyzerPort: 8888,
-            //     // Automatically open analyzer page in default browser if `startAnalyzer` is `true`
+            //     // Automatically open analyzer page in default browser
+            //     // if `startAnalyzer` is `true`
             //     openAnalyzer: true,
-            //     // If `true`, Webpack Stats JSON file will be generated in bundles output directory
+            //     // If `true`, Webpack Stats JSON file will be generated
+            //     // in bundles output directory
             //     generateStatsFile: true,
-            //     // Name of Webpack Stats JSON file that will be generated if `generateStatsFile`
-            //     // is `true`. Relative to bundles output directory.
+            //     // Name of Webpack Stats JSON file that will be generated
+            //     // if `generateStatsFile` is `true`. Relative to bundles output directory.
             //     statsFilename: `${name}-stats.json`,
             // }),
         ],

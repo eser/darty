@@ -12,7 +12,7 @@ function copyFile(sourceFile, targetFile) {
 }
 
 function extract(filename) {
-    const sourceFilePath = pathFinder(path.resolve(__dirname, '../../etc/', filename));
+    const sourceFilePath = pathFinder(path.resolve(__dirname, '../../etc/config/', filename));
     const targetFilePath = path.resolve('./', filename);
 
     if (sourceFilePath === null) {

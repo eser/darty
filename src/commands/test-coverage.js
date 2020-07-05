@@ -3,7 +3,7 @@ const pathFinder = require('../utils/pathFinder');
 const path = require('path');
 
 function testCoverage() {
-    const jestDefaultConfigPath = path.resolve(__dirname, '../../etc/jest.config.js');
+    const jestDefaultConfigPath = path.resolve(__dirname, '../../etc/config/jest.config.js');
     const jestLocalConfigPath = './jest.config.js';
 
     const jestConfigPath = pathFinder(jestLocalConfigPath, jestDefaultConfigPath);
