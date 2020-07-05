@@ -32,8 +32,8 @@
   },
   "files": [
     "bin",
-    "core",
-    "templates"
+    "src",
+    "etc"
   ],
   "engines": {
     "node": ">=10.12.0"
