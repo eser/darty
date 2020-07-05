@@ -8,11 +8,11 @@ const DotenvPlugin = require('dotenv-webpack');
 const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const pathFinder = require('./scripts/pathFinder');
-const pathMapFinder = require('./scripts/pathMapFinder');
+const pathFinder = require('../../src/utils/pathFinder');
+const pathMapFinder = require('./../src/utils/pathMapFinder');
 
 const configWrapper = (targetConfigFunction) => (env, argv) => {
-    const varsConstructor = require('./scripts/varsConstructor');
+    const varsConstructor = require('./varsConstructor');
 
     const vars = varsConstructor(env, argv);
 
@@ -44,7 +44,7 @@ function dependencyAliasesConverter(entries, vars) {
 }
 
 const commonConfig = (name, hasDocument) => configWrapper((vars) => {
-    const tsConfigPath = pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/core/etc/tsconfig.json`
+    const tsConfigPath = pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/etc/tsconfig.json`
     const useDocumentStyleInjection = hasDocument && !vars.isProduction;
 
     const styleLoader = {

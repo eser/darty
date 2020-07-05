@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
-const pathFinder = require('../../core/etc/scripts/pathFinder');
-const log = require('../utils/log');
+const pathFinder = require('../utils/pathFinder');
+const log = require('../log');
 
 const colors = require('colors/safe');
 
@@ -12,7 +12,7 @@ function copyFile(sourceFile, targetFile) {
 }
 
 function extract(filename) {
-    const sourceFilePath = pathFinder(path.resolve(__dirname, '../../core/etc/', filename));
+    const sourceFilePath = pathFinder(path.resolve(__dirname, '../../etc/', filename));
     const targetFilePath = path.resolve('./', filename);
 
     if (sourceFilePath === null) {

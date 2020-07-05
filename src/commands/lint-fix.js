@@ -1,9 +1,9 @@
-const shellSpawn = require('../utils/shellSpawn');
-const pathFinder = require('../../core/etc/scripts/pathFinder');
+const shellSpawn = require('../shellSpawn');
+const pathFinder = require('../utils/pathFinder');
 const path = require('path');
 
 function lintFix() {
-    const eslintDefaultConfigPath = path.resolve(__dirname, '../../core/etc/eslint.config.js');
+    const eslintDefaultConfigPath = path.resolve(__dirname, '../../etc/eslint.config.js');
     const eslintLocalConfigPath = './eslint.config.js';
 
     const eslintConfigPath = pathFinder(eslintLocalConfigPath, eslintDefaultConfigPath);

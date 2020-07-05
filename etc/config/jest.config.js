@@ -1,6 +1,6 @@
-const pathFinder = require('../etc/scripts/pathFinder');
+const pathFinder = require('../../src/utils/pathFinder');
 
-const tsConfigPath = pathFinder(`./tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/core/etc/tsconfig.json`
+const tsConfigPath = pathFinder(`./tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/etc/tsconfig.json`
 
 // const presetManifest = {
 // };
@@ -14,6 +14,7 @@ module.exports = {
             warnOnly: true,
             diagnostics: {
                 pathRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.([jt]sx?)$',
+                ignoreCodes: [ 'TS2691' ],
             },
         },
     },
@@ -34,7 +35,7 @@ module.exports = {
     },
     transform: {
         '^.+\\.tsx?$': 'ts-jest',
-        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${__dirname}/scripts/fileTransformer.js`,
+        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${__dirname}/../src/utils/fileTransformer.js`,
     },
     collectCoverageFrom: [
         '**/*.{ts,tsx,js,jsx,json}',

@@ -14,6 +14,7 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const pwd = process.cwd();
 
 const serverRenderer = (req, res, next) => {
+    // eslint-disable-next-line import/no-dynamic-require, global-require
     const startupObj = require(`${pwd}/dist/server`);
 
     const filePath = path.join(pwd, 'dist/index.html');

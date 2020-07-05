@@ -1,5 +1,5 @@
 const path = require('path');
-const pathFinder = require('./pathFinder');
+const pathFinder = require('../../src/utils/pathFinder');
 
 function varsConstructor(env = undefined, argv = {}) {
     const appRoot = process.cwd();
