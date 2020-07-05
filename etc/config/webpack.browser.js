@@ -116,9 +116,9 @@ const browserConfig = configWrapper((vars) => {
 
         plugins: [
             ...common.plugins,
-            new CopyWebpackPlugin(
-                vars.manifest.staticFiles.map(x => ({ from: x, to: './', flatten: true })),
-            ),
+            new CopyWebpackPlugin({
+                patterns: vars.manifest.staticFiles.map(x => ({ from: x, to: './', flatten: true })),
+            }),
             ...Object.keys(vars.manifest.htmlTemplates).map(filename =>
                 new HtmlWebpackPlugin({
                     title: vars.manifest.title,
