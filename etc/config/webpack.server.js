@@ -26,7 +26,7 @@ const serverConfig = configWrapper((vars) => {
         ],
 
         entry: {
-            'server': [ `${vars.dartyRoot}/src/index.server.tsx` ],
+            'server': [ `${vars.dartyRoot}/etc/entryPoints/index.server.tsx` ],
         },
 
         output: {

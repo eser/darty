@@ -1,4 +1,5 @@
 /* eslint-env node */
+import startupExecutor from './startupExecutor.ts';
 
 // polyfills
 if (global.fetch === undefined) {
@@ -9,8 +10,6 @@ if (global.fetch === undefined) {
 const startupArgs = {
     platform: 'server',
 };
-
-import startupExecutor from './startupExecutor';
 
 const startupObj = startupExecutor(startupArgs);
 

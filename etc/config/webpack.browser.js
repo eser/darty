@@ -23,7 +23,7 @@ const browserConfig = configWrapper((vars) => {
         target: 'web',
 
         entry: {
-            'browser': [ `${vars.dartyRoot}/src/index.browser.tsx` ],
+            'browser': [ `${vars.dartyRoot}/etc/entryPoints/index.browser.tsx` ],
         },
 
         output: {
