@@ -40,7 +40,7 @@ const browserConfig = configWrapper((vars) => {
 
             splitChunks: {
                 cacheGroups: {
-                    default: false,
+                    'default': false,
                     vendors: false,
 
                     // vendor chunk
@@ -50,7 +50,7 @@ const browserConfig = configWrapper((vars) => {
                         // async + async chunks
                         chunks: 'all',
                         // import file path containing node_modules
-                        test: /[\\\/]node_modules[\\\/]/,
+                        test: /[\\/]node_modules[\\/]/,
                         // priority
                         priority: 20,
                     },
@@ -74,7 +74,7 @@ const browserConfig = configWrapper((vars) => {
             rules: [
                 ...common.module.rules,
                 {
-                    test: /\.(eot|ttf|jpe?g|png|gif|ico)([\?]?.*)$/i,
+                    test: /\.(eot|ttf|jpe?g|png|gif|ico)([?]?.*)$/i,
                     use: [
                         {
                             loader: 'file-loader',
@@ -86,7 +86,7 @@ const browserConfig = configWrapper((vars) => {
                     ],
                 },
                 {
-                    test: /\.(woff2?|ttf|otf|eot)([\?]?.*)$/i,
+                    test: /\.(woff2?|ttf|otf|eot)([?]?.*)$/i,
                     use: [
                         {
                             loader: 'url-loader',
@@ -98,7 +98,7 @@ const browserConfig = configWrapper((vars) => {
                     ],
                 },
                 {
-                    test: /\.(svg)([\?]?.*)$/,
+                    test: /\.(svg)([?]?.*)$/,
                     use: [
                         {
                             loader: 'url-loader',
@@ -119,14 +119,12 @@ const browserConfig = configWrapper((vars) => {
             new CopyWebpackPlugin({
                 patterns: vars.manifest.staticFiles.map(x => ({ from: x, to: './', flatten: true })),
             }),
-            ...Object.keys(vars.manifest.htmlTemplates).map(filename =>
-                new HtmlWebpackPlugin({
-                    title: vars.manifest.title,
-                    filename: filename,
-                    template: vars.manifest.htmlTemplates[filename],
-                    inject: false,
-                })
-            ),
+            ...Object.keys(vars.manifest.htmlTemplates).map(filename => new HtmlWebpackPlugin({
+                title: vars.manifest.title,
+                filename: filename,
+                template: vars.manifest.htmlTemplates[filename],
+                // inject: false,
+            })),
             ...optionalPlugins,
         ],
 
