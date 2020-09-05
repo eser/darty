@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const pathFinder = require('../utils/pathFinder');
+const glob = require('glob');
 const log = require('../log');
 
 const colors = require('colors/safe');
@@ -11,19 +11,32 @@ function copyFile(sourceFile, targetFile) {
     fs.writeFileSync(targetFile, fileContents);
 }
 
-function extract(filename) {
-    const sourceFilePath = pathFinder(path.resolve(__dirname, '../../etc/config/', filename));
-    const targetFilePath = path.resolve('./', filename);
+function extract(pattern) {
+    const baseSourcePath = path.resolve(__dirname, '../../etc/config/');
 
-    if (sourceFilePath === null) {
-        log(`${colors.yellow(filename)} does not exists.`);
+    const globOptions = {
+        cwd: baseSourcePath,
+        dot: false,
+        nosort: true,
+        nonull: false,
+    };
+
+    const globResult = glob.sync(pattern, globOptions);
+
+    if (globResult.length === 0) {
+        log(`${colors.yellow(pattern)} does not exists.`);
 
         return;
     }
 
-    copyFile(sourceFilePath, targetFilePath);
+    globResult.forEach((filename) => {
+        const sourceFilePath = `${baseSourcePath}/${filename}`;
+        const targetFilePath = `./${filename}`;
 
-    log(`${colors.yellow(filename)} is extracted.`);
+        copyFile(sourceFilePath, targetFilePath);
+
+        log(`${colors.yellow(filename)} is extracted.`);
+    });
 }
 
 module.exports = extract;

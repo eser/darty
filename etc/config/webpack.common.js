@@ -170,6 +170,11 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
                         {
                             // First we transform LESS to standard CSS
                             loader: 'less-loader',
+                            options: {
+                                lessOptions: {
+                                    javascriptEnabled: true,
+                                },
+                            },
                         },
                     ],
                 },

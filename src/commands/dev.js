@@ -1,9 +1,15 @@
 const shellSpawn = require('../shellSpawn');
 const path = require('path');
+const pathFinder = require('../utils/pathFinder');
+const log = require('../log');
 
 function dev() {
-    const webpackBrowserJsPath = path.resolve(__dirname, '../../etc/config/webpack.browser.js');
+    const webpackBrowserJsPath = pathFinder(
+        './webpack.browser.js',
+        path.resolve(__dirname, '../../etc/config/webpack.browser.js'),
+    );
 
+    log(`webpack config for browser located in ${webpackBrowserJsPath}`);
     shellSpawn('./node_modules/.bin/webpack-dev-server', [ '--config', webpackBrowserJsPath, '--inline', '--hot', '--progress' ]);
 }
 
