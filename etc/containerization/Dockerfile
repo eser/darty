@@ -8,21 +8,18 @@ ARG PORT=3000
 FROM node:alpine as builder
 
 # Requirements
-RUN apk add yarn python make g++
+RUN apk add spython make g++
 
 # Install app dependencies
-# ensure both package.json AND yarn.lock are copied
-ADD ./package.json ./yarn.lock ./
+# ensure both package.json AND package-lock.json are copied
+ADD ./package.json ./package-lock.json ./
 
-RUN yarn install --frozen-lockfile --non-interactive
+RUN npm install --production
 
 
 # STAGE-2
 # Install Node.js docker container
 FROM node:alpine
-
-# Requirements
-RUN apk add yarn
 
 # Environment variables
 ENV NODE_ENV=${NODE_ENV}
@@ -39,4 +36,4 @@ COPY ./ ./
 
 EXPOSE ${PORT}
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]

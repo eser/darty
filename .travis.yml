@@ -6,11 +6,13 @@ node_js:
 - '12'
 - '14'
 
-cache:
-  yarn: true
-
 install:
-- yarn
+- npm ci
 
 script:
-- yarn test:coverage
+- npm run test:coverage
+
+# keep the npm cache around to speed up installs
+cache:
+  directories:
+  - "$HOME/.npm"
