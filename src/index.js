@@ -1,3 +1,4 @@
+const variables = require('./variables');
 const locateCommandFunc = require('./locateCommandFunc');
 
 const commands = [
@@ -37,4 +38,7 @@ function main(args) {
     return 0;
 }
 
-module.exports = main;
+module.exports = {
+    main,
+    variables,
+};

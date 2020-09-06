@@ -1,10 +1,11 @@
 const path = require('path');
-const pathFinder = require('../../src/utils/pathFinder');
+const pathFinder = require('./utils/pathFinder');
+const pathMapFinder = require('./utils/pathMapFinder');
 
 // eslint-disable-next-line max-statements
-function varsConstructor(env = undefined, argv = {}) {
+function variables(env = undefined, argv = {}) {
     const appRoot = process.cwd();
-    const dartyRoot = path.resolve(__dirname, '../../');
+    const dartyRoot = path.resolve(__dirname, '../');
 
     const envValue = env || argv.mode || process.env.NODE_ENV || 'development';
     const isProduction = (envValue === 'production');
@@ -46,7 +47,10 @@ function varsConstructor(env = undefined, argv = {}) {
         dartyRoot,
         envValue,
         isProduction,
+
+        pathFinder,
+        pathMapFinder,
     };
 }
 
-module.exports = varsConstructor;
+module.exports = variables;

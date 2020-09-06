@@ -2,7 +2,7 @@
 
 'use strict';
 
-const main = require('../src/index');
+const { main } = require('../src/index');
 
 process.on('unhandledRejection', (err) => {
     throw err;

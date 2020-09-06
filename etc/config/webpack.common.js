@@ -10,13 +10,11 @@ const DotenvPlugin = require('dotenv-webpack');
 const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const pathFinder = require('../../src/utils/pathFinder');
-const pathMapFinder = require('../../src/utils/pathMapFinder');
-
-const varsConstructor = require('./varsConstructor');
+const variables = require('../../src/variables');
+// const { variables } = require('darty');
 
 const configWrapper = targetConfigFunction => (env, argv) => {
-    const vars = varsConstructor(env, argv);
+    const vars = variables(env, argv);
 
     return targetConfigFunction(vars);
 };
@@ -46,7 +44,7 @@ function dependencyAliasesConverter(entries, vars) {
 }
 
 const commonConfig = (name, hasDocument) => configWrapper((vars) => {
-    const tsConfigPath = pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/etc/config/tsconfig.json`
+    const tsConfigPath = vars.pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/etc/config/tsconfig.json`
     const useDocumentStyleInjection = hasDocument && !vars.isProduction;
 
     const styleLoader = {
@@ -84,7 +82,7 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
             // parser: 'postcss-js',
             sourceMap: true,
             config: {
-                path: pathMapFinder({
+                path: vars.pathMapFinder({
                     [`${__dirname}/postcss.config.js`]: __dirname,
                     [`${vars.appRoot}/postcss.config.js`]: vars.appRoot,
                 }),

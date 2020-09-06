@@ -1,7 +1,7 @@
-const varsConstructor = require('./varsConstructor');
+const variables = require('../../src/variables');
+// const { variables } = require('darty');
 
-const vars = varsConstructor();
-const manifest = vars.manifest;
+const { manifest } = variables();
 
 module.exports = {
     'extends': (manifest.linter && manifest.linter.extends) || [],

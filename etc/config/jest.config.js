@@ -1,6 +1,9 @@
-const pathFinder = require('../../src/utils/pathFinder');
+const variables = require('../../src/variables');
+// const { variables } = require('darty');
 
-const tsConfigPath = pathFinder('./tsconfig.json', `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/etc/config/tsconfig.json`
+const vars = variables();
+
+const tsConfigPath = vars.pathFinder('./tsconfig.json', `${vars.dartyRoot}/etc/config/tsconfig.json`);
 
 // const presetManifest = {
 // };
