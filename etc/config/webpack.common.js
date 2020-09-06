@@ -64,12 +64,15 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
         loader: 'css-loader',
         options: {
             modules: {
+                compileType: 'module',
                 mode: 'local',
                 // localIdentName: '[local]___[hash:base64:5]',
                 localIdentName: '[local]',
+                auto: true,
+                namedExport: true,
+                exportLocalsConvention: 'camelCase',
             },
             sourceMap: true,
-            localsConvention: 'camelCase',
             importLoaders: importLoaders,
         },
     });
