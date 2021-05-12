@@ -70,7 +70,7 @@
     "less": "^3.12.2",
     "less-loader": "^7.0.1",
     "node-fetch": "^2.6.1",
-    "postcss": "^7.0.32",
+    "postcss": "^8.2.10",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-nesting": "^7.0.1",
