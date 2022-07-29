@@ -2,12 +2,11 @@ const path = require('path');
 const pathFinder = require('./utils/pathFinder');
 const pathMapFinder = require('./utils/pathMapFinder');
 
-// eslint-disable-next-line max-statements
-function variables(env = undefined, argv = {}) {
+function variables(webpackOptions = undefined, argv = {}) {
     const appRoot = process.cwd();
     const dartyRoot = path.resolve(__dirname, '../');
 
-    const envValue = env || argv.mode || process.env.NODE_ENV || 'development';
+    const envValue = argv.mode || process.env.NODE_ENV || 'development';
     const isProduction = (envValue === 'production');
 
     // load local manifest first
@@ -16,7 +15,6 @@ function variables(env = undefined, argv = {}) {
     const localManifestFile = pathFinder(`${appRoot}/manifest.js`, `${appRoot}/manifest.json`);
 
     if (localManifestFile !== null) {
-        // eslint-disable-next-line import/no-dynamic-require, global-require
         manifest = require(localManifestFile);
     }
 
@@ -29,7 +27,6 @@ function variables(env = undefined, argv = {}) {
         const presetManifestFile = pathFinder(`${presetRoot}/manifest.js`, `${presetRoot}/manifest.json`);
 
         if (presetManifestFile !== null) {
-            // eslint-disable-next-line import/no-dynamic-require, global-require
             const presetManifest = require(presetManifestFile);
 
             if (presetManifest !== null) {
@@ -39,7 +36,7 @@ function variables(env = undefined, argv = {}) {
     }
 
     return {
-        env,
+        webpackOptions,
         argv,
         manifest,
         appRoot,

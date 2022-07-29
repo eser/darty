@@ -1,11 +1,10 @@
-/* eslint-env node */
 const { configWrapper, commonConfig } = require('./webpack.common');
 
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 
 const serverConfig = configWrapper((vars) => {
-    const common = commonConfig('server', false)(vars.env, vars.argv);
+    const common = commonConfig('server', false)(vars.webpackOptions, vars.argv);
 
     // const packageJson = require(`${vars.appRoot}/package.json`);
     // const whiteListModules = [
@@ -21,7 +20,7 @@ const serverConfig = configWrapper((vars) => {
         target: 'node',
         externals: [
             nodeExternals({
-                whitelist: /^(?!fs$|path$|express$|webpack$).*/, // anything but fs, path, express and webpack
+                allowlist: /^(?!fs$|path$|express$|webpack$).*/, // anything but fs, path, express and webpack
             }),
         ],
 
@@ -36,55 +35,33 @@ const serverConfig = configWrapper((vars) => {
             libraryTarget: 'commonjs2',
         },
 
+        optimization: {
+            ...common.optimization,
+            moduleIds: 'named',
+        },
+
         module: {
             ...common.module,
 
             rules: [
                 ...common.module.rules,
-                {
-                    test: /\.(eot|ttf|jpe?g|png|gif|ico)([\?]?.*)$/i,
-                    use: [
-                        {
-                            loader: 'file-loader?emitFile=false',
-                            options: {
-                                name: '[name].[ext]',
-                                outputPath: 'assets/',
-                            },
-                        },
-                    ],
-                },
-                {
-                    test: /\.(woff2?)([\?]?.*)$/i,
-                    use: [
-                        {
-                            loader: 'url-loader?emitFile=false',
-                            options: {
-                                name: '[name].[ext]',
-                                outputPath: 'assets/',
-                            },
-                        },
-                    ],
-                },
-                {
-                    test: /\.(svg)([\?]?.*)$/i,
-                    use: [
-                        {
-                            loader: 'url-loader?emitFile=false',
-                            options: {
-                                limit: 10000,
-                                mimetype: 'image/svg+xml',
-                                name: '[name].[ext]',
-                                outputPath: 'assets/',
-                            },
-                        },
-                    ],
-                },
+                // {
+                //     test: /\.(jpe?g|png|gif|ico)([\?]?.*)$/i,
+                //     type: 'asset/resource',
+                // },
+                // {
+                //     test: /\.(woff2?|ttf|otf|eot)([?]?.*)$/i,
+                //     type: 'asset/resource',
+                // },
+                // {
+                //     test: /\.(svg)([\?]?.*)$/i,
+                //     type: 'asset/resource',
+                // },
             ],
         },
 
         plugins: [
             ...common.plugins,
-            new webpack.NamedModulesPlugin(),
             new webpack.optimize.LimitChunkCountPlugin({
                 maxChunks: 1,
             }),

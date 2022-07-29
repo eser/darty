@@ -19,7 +19,6 @@ function main(args) {
     const commandFunc = locateCommandFunc(commands, ...args);
 
     if (commandFunc.error !== null) {
-        // eslint-disable-next-line no-console
         console.error(commandFunc.error);
 
         return 1;
@@ -29,7 +28,6 @@ function main(args) {
         commandFunc.func(...commandFunc.args);
     }
     catch (ex) {
-        // eslint-disable-next-line no-console
         console.error(ex);
 
         return 1;

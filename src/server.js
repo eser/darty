@@ -1,4 +1,3 @@
-/* eslint-env node */
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -14,7 +13,6 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const pwd = process.cwd();
 
 const serverRenderer = (req, res, next) => {
-    // eslint-disable-next-line import/no-dynamic-require, global-require
     const startupObj = require(`${pwd}/dist/server`);
 
     const filePath = path.join(pwd, 'dist/index.html');
@@ -58,14 +56,11 @@ app.all('*', serverRenderer);
 
 app.listen(port, (err) => {
     if (err) {
-        // eslint-disable-next-line no-console
         console.error(err);
 
         return;
     }
 
-    // eslint-disable-next-line no-console
     console.log(colors.yellow(`Darty Server ${pkg.version}.`));
-    // eslint-disable-next-line no-console
     console.log(`🌎 Server is now running at http://${hostname}:${port}.`);
 });

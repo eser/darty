@@ -1,13 +1,10 @@
-/* eslint-env node */
 const path = require('path');
 const webpack = require('webpack');
 const sass = require('sass');
-const fibers = require('fibers');
-const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
-const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const variables = require('../../src/variables');
@@ -47,33 +44,34 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
     const tsConfigPath = vars.pathFinder(`${vars.appRoot}/tsconfig.json`, `${__dirname}/tsconfig.json`); // `${vars.dartyRoot}/etc/config/tsconfig.json`
     const useDocumentStyleInjection = hasDocument && !vars.isProduction;
 
+    const imageInlineSizeLimit = vars.imageInlineSizeLimit || 10000;
+
     const styleLoader = {
         // creates style nodes from JS strings
         loader: 'style-loader',
     };
 
-    const extractCssChunksPluginLoader = {
+    const miniCssExtractPluginLoader = {
         // After all CSS loaders we use plugin to do his work.
         // It gets all transformed CSS and extracts it into separate
         // single bundled file
-        loader: ExtractCssChunksPlugin.loader,
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+            // publicPath: '../',
+            // esModule: false,
+        },
     };
 
-    const cssLoader = importLoaders => ({
+    const cssLoader = (customOptions) => ({
         // This loader resolves url() and @imports inside CSS
         loader: 'css-loader',
         options: {
-            modules: {
-                compileType: 'module',
-                mode: 'local',
-                // localIdentName: '[local]___[hash:base64:5]',
-                localIdentName: '[local]',
-                auto: true,
-                namedExport: true,
-                exportLocalsConvention: 'camelCase',
-            },
             sourceMap: true,
-            importLoaders: importLoaders,
+            ...(customOptions ?? {}),
+            modules: {
+                mode: 'icss',
+                ...(customOptions?.modules ?? {}),
+            },
         },
     });
 
@@ -81,11 +79,10 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
         // Then we apply postCSS fixes like autoprefixer and minifying
         loader: 'postcss-loader',
         options: {
-            ident: 'postcss',
             // parser: 'postcss-js',
             sourceMap: true,
-            config: {
-                path: vars.pathMapFinder({
+            postcssOptions: {
+                config: vars.pathMapFinder({
                     [`${__dirname}/postcss.config.js`]: __dirname,
                     [`${vars.appRoot}/postcss.config.js`]: vars.appRoot,
                 }),
@@ -95,7 +92,7 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
 
     return {
         mode: vars.isProduction ? 'production' : 'development',
-        devtool: vars.isProduction ? 'source-map' : 'cheap-module-eval-source-map',
+        devtool: vars.isProduction ? 'source-map' : 'inline-source-map',
         context: vars.appRoot,
 
         output: {
@@ -106,11 +103,21 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
             // hotUpdateChunkFilename: 'hot/hot-update.js',
             // hotUpdateMainFilename: 'hot/hot-update.json',
             path: path.join(vars.appRoot, 'dist'),
+
+            assetModuleFilename: 'assets/[name]-[contenthash].[ext]',
         },
 
         optimization: {
-            // namedModules: true,
-            // namedChunks: true,
+            // moduleIds: 'hashed',
+            // chunkIds: 'named', // total-size
+            // moduleIds: 'named', // hashed, size
+            // emitOnErrors: true,
+            // splitChunks: {
+            //     cacheGroups: {
+            //         defaultVendors: {
+            //         },
+            //     },
+            // },
         },
 
         module: {
@@ -118,115 +125,156 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
 
             rules: [
                 {
-                    parser: {
-                        requireEnsure: false,
-                    },
-                },
-                {
-                    test: /\.([tj]sx?)$/i,
-                    use: [
+                    oneOf: [
                         {
-                            loader: 'ts-loader',
-                            options: {
-                                transpileOnly: true,
-                                configFile: tsConfigPath,
-                            },
-                        },
-                    ],
-                    // exclude: /node_modules/,
-                },
-                {
-                    test: /\.css$/i,
-                    use: [
-                        useDocumentStyleInjection ? styleLoader : extractCssChunksPluginLoader,
-                        cssLoader(1),
-                        postCssLoader,
-                    ],
-                },
-                {
-                    test: /\.(sa|sc)ss$/i,
-                    use: [
-                        useDocumentStyleInjection ? styleLoader : extractCssChunksPluginLoader,
-                        cssLoader(2),
-                        postCssLoader,
-                        {
-                            // First we transform SASS to standard CSS
-                            loader: 'sass-loader',
-                            options: {
-                                implementation: sass,
-                                sassOptions: {
-                                    fiber: fibers,
+                            enforce: 'pre',
+                            test: /\.([tj]sx?)$/i,
+                            use: [
+                                {
+                                    loader: 'ts-loader',
+                                    options: {
+                                        transpileOnly: true,
+                                        configFile: tsConfigPath,
+                                    },
                                 },
-                                sourceMap: true,
-                            },
+                            ],
+                            // exclude: /node_modules/,
                         },
-                    ],
-                },
-                {
-                    test: /\.less$/i,
-                    use: [
-                        useDocumentStyleInjection ? styleLoader : extractCssChunksPluginLoader,
-                        cssLoader(2),
-                        postCssLoader,
                         {
-                            // First we transform LESS to standard CSS
-                            loader: 'less-loader',
-                            options: {
-                                lessOptions: {
-                                    javascriptEnabled: true,
+                            test: /\.css$/i,
+                            exclude: /\.module\.css$/i,
+                            use: [
+                                useDocumentStyleInjection ? styleLoader : miniCssExtractPluginLoader,
+                                cssLoader({
+                                    importLoaders: 1,
+                                }),
+                                postCssLoader,
+                            ],
+                            sideEffects: true,
+                        },
+                        {
+                            test: /\.module\.css$/i,
+                            use: [
+                                useDocumentStyleInjection ? styleLoader : miniCssExtractPluginLoader,
+                                cssLoader({
+                                    importLoaders: 1,
+                                    modules: {
+                                        mode: 'local',
+                                        // localIdentName: '[local]___[hash:base64:5]',
+                                        localIdentName: '[local]',
+                                        auto: true,
+                                        namedExport: true,
+                                        exportLocalsConvention: 'camelCase',
+                                    },
+                                }),
+                                postCssLoader,
+                            ],
+                        },
+                        {
+                            test: /\.(sa|sc)ss$/i,
+                            exclude: /\.module\.(scss|sass)$/i,
+                            use: [
+                                useDocumentStyleInjection ? styleLoader : miniCssExtractPluginLoader,
+                                cssLoader({
+                                    importLoaders: 3,
+                                }),
+                                postCssLoader,
+                                {
+                                    // First we transform SASS to standard CSS
+                                    loader: 'sass-loader',
+                                    options: {
+                                        implementation: sass,
+                                        sassOptions: {
+                                        },
+                                        sourceMap: true,
+                                    },
                                 },
-                            },
+                            ],
+                        },
+                        {
+                            test: /\.module\.(scss|sass)$/i,
+                            use: [
+                                useDocumentStyleInjection ? styleLoader : miniCssExtractPluginLoader,
+                                cssLoader({
+                                    importLoaders: 3,
+                                    modules: {
+                                        mode: 'local',
+                                        // localIdentName: '[local]___[hash:base64:5]',
+                                        localIdentName: '[local]',
+                                        auto: true,
+                                        namedExport: true,
+                                        exportLocalsConvention: 'camelCase',
+                                    },
+                                }),
+                                postCssLoader,
+                                {
+                                    // First we transform SASS to standard CSS
+                                    loader: 'sass-loader',
+                                    options: {
+                                        implementation: sass,
+                                        sassOptions: {
+                                        },
+                                        sourceMap: true,
+                                    },
+                                },
+                            ],
+                        },
+                        {
+                            test: /\.less$/i,
+                            exclude: /\.module\.less$/i,
+                            use: [
+                                useDocumentStyleInjection ? styleLoader : miniCssExtractPluginLoader,
+                                cssLoader({
+                                    importLoaders: 3,
+                                }),
+                                postCssLoader,
+                                {
+                                    // First we transform LESS to standard CSS
+                                    loader: 'less-loader',
+                                    options: {
+                                        lessOptions: {
+                                            javascriptEnabled: true,
+                                        },
+                                    },
+                                },
+                            ],
+                        },
+                        {
+                            test: /\.module\.less$/i,
+                            use: [
+                                useDocumentStyleInjection ? styleLoader : miniCssExtractPluginLoader,
+                                cssLoader({
+                                    importLoaders: 3,
+                                    modules: {
+                                        mode: 'local',
+                                        // localIdentName: '[local]___[hash:base64:5]',
+                                        localIdentName: '[local]',
+                                        auto: true,
+                                        namedExport: true,
+                                        exportLocalsConvention: 'camelCase',
+                                    },
+                                }),
+                                postCssLoader,
+                                {
+                                    // First we transform LESS to standard CSS
+                                    loader: 'less-loader',
+                                    options: {
+                                        lessOptions: {
+                                            javascriptEnabled: true,
+                                        },
+                                    },
+                                },
+                            ],
+                        },
+                        {
+                            exclude: [
+                                /^$/,
+                                /\.([tj]sx?|json|mdx?|html?)$/i,
+                            ],
+                            type: 'asset/resource',
                         },
                     ],
                 },
-                // {
-                //     test: /\.(sa|sc|c)ss$/i,
-                //     use: [
-                //         {
-                //             // After all CSS loaders we use plugin to do his work.
-                //             // It gets all transformed CSS and extracts it into separate
-                //             // single bundled file
-                //             loader: ExtractCssChunksPlugin.loader,
-                //         },
-                //         {
-                //             // This loader resolves url() and @imports inside CSS
-                //             loader: 'css-loader',
-                //             options: {
-                //                 modules: {
-                //                     mode: 'local',
-                //                     // localIdentName: '[local]___[hash:base64:5]',
-                //                     localIdentName: '[local]',
-                //                 },
-                //                 sourceMap: true,
-                //                 localsConvention: 'camelCase',
-                //                 importLoaders: 2,
-                //             },
-                //         },
-                //         {
-                //             // Then we apply postCSS fixes like autoprefixer and minifying
-                //             loader: 'postcss-loader',
-                //             options: {
-                //                 ident: 'postcss',
-                //                 // parser: 'postcss-js',
-                //                 sourceMap: true,
-                //                 config: {
-                //                     path: __dirname,
-                //                 },
-                //             },
-                //         },
-                //         {
-                //             // First we transform SASS to standard CSS
-                //             loader: 'sass-loader',
-                //             options: {
-                //                 implementation: sass,
-                //                 sassOptions: {
-                //                     fiber: fibers,
-                //                 },
-                //                 sourceMap: true,
-                //             },
-                //         },
-                //     ],
-                // },
             ],
         },
 
@@ -235,6 +283,7 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
             modules: [
                 path.join(vars.appRoot, 'src'),
                 path.join(vars.appRoot, 'node_modules'),
+                path.join(vars.dartyRoot, 'node_modules'),
             ],
             mainFields: [ 'main', 'module' ],
             plugins: [
@@ -247,31 +296,35 @@ const commonConfig = (name, hasDocument) => configWrapper((vars) => {
             alias: dependencyAliasesConverter(vars.manifest.dependencyAliases, vars),
         },
 
+        resolveLoader: {
+            extensions: [ '.js', '.json' ],
+            modules: [
+                path.join(vars.appRoot, 'node_modules'),
+                path.join(vars.dartyRoot, 'node_modules'),
+            ],
+            mainFields: [ 'loader', 'main' ],
+        },
+
         plugins: [
             new webpack.DefinePlugin({
-                'process.env': {
-                    NODE_ENV: JSON.stringify(vars.envValue),
-                    PLATFORM: JSON.stringify(name),
-                    DARTY_VARS: JSON.stringify(vars),
-                },
+                'process.env.NODE_ENV': JSON.stringify(vars.envValue),
+                'process.env.PLATFORM': JSON.stringify(name),
+                'process.env.DARTY_VARS': JSON.stringify(vars),
             }),
             // new webpack.WatchIgnorePlugin([
             //     /css\.d\.ts$/
             // ]),
             new CaseSensitivePathsPlugin(),
-            new ExtractCssChunksPlugin({
-                filename: '[name].css',
-                // chunkFilename: '[id].[chunkhash].css',
-                chunkFilename: '[id].css',
-                hot: !vars.isProduction,
-                cssModules: true,
+            new MiniCssExtractPlugin({
+                filename: '[name].[contenthash:8].css',
+                chunkFilename: '[name].[contenthash:8].chunk.css',
             }),
+            // new webpack.HotModuleReplacementPlugin(),
             new DotenvPlugin({
                 // safe: `${vars.dartyRoot}/templates/.env.default`,
                 // path: './.env',
                 silent: true,
             }),
-            new AsyncChunkNames(),
             // new BundleAnalyzerPlugin({
             //     // Start analyzer HTTP-server.
             //     // You can use this plugin to just generate Webpack Stats JSON file by

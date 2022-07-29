@@ -13,6 +13,5 @@ tmp/
 # configuration and dotfiles
 tsconfig.json
 jest.config.js
-.eslintrc
 makefile.js
 .npmignore

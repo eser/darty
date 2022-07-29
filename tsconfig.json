@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
+        "target": "ES5",
+        "module": "ES6",
         "moduleResolution": "node",
         "esModuleInterop": true,
         "importHelpers": true,
@@ -14,6 +14,7 @@
         "removeComments": true,
         "strictNullChecks": true,
         "strict": true,
+        "allowJs": true,
         "newLine": "LF",
         "rootDir": "./src/",
         "outDir": "./",

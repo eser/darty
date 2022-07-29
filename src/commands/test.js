@@ -10,7 +10,7 @@ function test() {
     );
 
     log(`jest config located in ${jestConfigPath}`);
-    shellSpawn('./node_modules/.bin/jest', [ '--config', jestConfigPath, '--rootDir', './' ]);
+    shellSpawn(path.resolve(__dirname, '../../node_modules/.bin/jest'), [ '--config', jestConfigPath, '--rootDir', './' ]);
 }
 
 module.exports = test;

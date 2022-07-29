@@ -54,7 +54,7 @@ Sadly... that's the reason why I renamed this project as darty.
 ## Fixed and Extensible Parts
 
 Static components are:
-* Jest for tests, ESLint for linting.
+* Jest for tests.
 * Webpack for module bundling.
 * express for server-side rendering.
 

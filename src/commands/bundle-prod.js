@@ -15,10 +15,10 @@ function bundleProd() {
     );
 
     log(`webpack config for browser located in ${webpackBrowserJsPath}`);
-    shellSpawn('./node_modules/.bin/webpack', [ '--config', webpackBrowserJsPath, '--mode', 'production' ]);
+    shellSpawn(path.resolve(__dirname, '../../node_modules/.bin/webpack'), [ '--config', webpackBrowserJsPath, '--mode', 'production' ]);
 
     log(`webpack config for server located in ${webpackServerJsPath}`);
-    shellSpawn('./node_modules/.bin/webpack', [ '--config', webpackServerJsPath, '--mode', 'production' ]);
+    shellSpawn(path.resolve(__dirname, '../../node_modules/.bin/webpack'), [ '--config', webpackServerJsPath, '--mode', 'production' ]);
 }
 
 module.exports = bundleProd;

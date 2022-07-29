@@ -1,14 +1,6 @@
-/* eslint-env browser */
-
 declare var document: any;
 
 // polyfills
-if (global.Promise === undefined) {
-    const es6promise = require('es6-promise');
-
-    es6promise.polyfill();
-}
-
 if (global.fetch === undefined) {
     require('whatwg-fetch');
 }

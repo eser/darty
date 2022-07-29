@@ -1,4 +1,3 @@
-/* eslint-env node */
 const { configWrapper, commonConfig } = require('./webpack.common');
 
 const webpack = require('webpack');
@@ -6,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const browserConfig = configWrapper((vars) => {
-    const common = commonConfig('browser', true)(vars.env, vars.argv);
+    const common = commonConfig('browser', true)(vars.webpackOptions, vars.argv);
 
     let optionalPlugins = [];
 
@@ -39,33 +38,34 @@ const browserConfig = configWrapper((vars) => {
             ...common.optimization,
 
             splitChunks: {
-                cacheGroups: {
-                    'default': false,
-                    vendors: false,
+                chunks: 'all',
+                // cacheGroups: {
+                //     'default': false,
+                //     vendors: false,
 
-                    // vendor chunk
-                    vendor: {
-                        // name of the chunk
-                        name: 'browser-vendors',
-                        // async + async chunks
-                        chunks: 'all',
-                        // import file path containing node_modules
-                        test: /[\\/]node_modules[\\/]/,
-                        // priority
-                        priority: 20,
-                    },
-                    // common chunk
-                    common: {
-                        name: 'browser-common',
-                        minChunks: 2,
-                        chunks: 'async',
-                        priority: 10,
-                        reuseExistingChunk: true,
-                        enforce: true,
-                    },
-                },
+                //     // vendor chunk
+                //     vendor: {
+                //         // name of the chunk
+                //         name: 'browser-vendors',
+                //         // async + async chunks
+                //         chunks: 'all',
+                //         // import file path containing node_modules
+                //         test: /[\\/]node_modules[\\/]/,
+                //         // priority
+                //         priority: 20,
+                //     },
+                //     // common chunk
+                //     common: {
+                //         name: 'browser-common',
+                //         minChunks: 2,
+                //         chunks: 'async',
+                //         priority: 10,
+                //         reuseExistingChunk: true,
+                //         enforce: true,
+                //     },
+                // },
             },
-            runtimeChunk: 'single',
+            // runtimeChunk: 'single',
         },
 
         module: {
@@ -73,51 +73,37 @@ const browserConfig = configWrapper((vars) => {
 
             rules: [
                 ...common.module.rules,
-                {
-                    test: /\.(eot|ttf|jpe?g|png|gif|ico)([?]?.*)$/i,
-                    use: [
-                        {
-                            loader: 'file-loader',
-                            options: {
-                                name: '[name].[ext]',
-                                outputPath: 'assets/',
-                            },
-                        },
-                    ],
-                },
-                {
-                    test: /\.(woff2?|ttf|otf|eot)([?]?.*)$/i,
-                    use: [
-                        {
-                            loader: 'url-loader',
-                            options: {
-                                name: '[name].[ext]',
-                                outputPath: 'assets/',
-                            },
-                        },
-                    ],
-                },
-                {
-                    test: /\.(svg)([?]?.*)$/,
-                    use: [
-                        {
-                            loader: 'url-loader',
-                            options: {
-                                limit: 10000,
-                                mimetype: 'image/svg+xml',
-                                name: '[name].[ext]',
-                                outputPath: 'assets/',
-                            },
-                        },
-                    ],
-                },
+                // {
+                //     test: /\.(jpe?g|png|gif|ico)([?]?.*)$/i,
+                //     type: 'asset/resource',
+                // },
+                // {
+                //     test: /\.(woff2?|ttf|otf|eot)([?]?.*)$/i,
+                //     type: 'asset/resource',
+                // },
+                // {
+                //     test: /\.(svg)([?]?.*)$/,
+                //     type: 'asset/resource',
+                // },
             ],
+        },
+
+        resolve: {
+            ...common.resolve,
+
+            fallback: {
+                dgram: false,
+                fs: false,
+                net: false,
+                tls: false,
+                child_process: false,
+            },
         },
 
         plugins: [
             ...common.plugins,
             new CopyWebpackPlugin({
-                patterns: vars.manifest.staticFiles.map(x => ({ from: x, to: './', flatten: true })),
+                patterns: vars.manifest.staticFiles.map(x => ({ from: x, to: './[name][ext]' })),
             }),
             ...Object.keys(vars.manifest.htmlTemplates).map(filename => new HtmlWebpackPlugin({
                 title: vars.manifest.title,
@@ -127,14 +113,6 @@ const browserConfig = configWrapper((vars) => {
             })),
             ...optionalPlugins,
         ],
-
-        node: {
-            dgram: 'empty',
-            fs: 'empty',
-            net: 'empty',
-            tls: 'empty',
-            child_process: 'empty',
-        },
     };
 });
 

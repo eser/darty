@@ -23,7 +23,6 @@
         "noStrictGenericChecks": false,
         "noUnusedLocals": false,
         "noUnusedParameters": false,
-        "preserveConstEnums": false,
         "removeComments": true,
         "resolveJsonModule": true,
         "sourceMap": true,

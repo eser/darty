@@ -15,10 +15,10 @@ function bundle() {
     );
 
     log(`webpack config for browser located in ${webpackBrowserJsPath}`);
-    shellSpawn('./node_modules/.bin/webpack', [ '--config', webpackBrowserJsPath ]);
+    shellSpawn(path.resolve(__dirname, '../../node_modules/.bin/webpack'), [ '--config', webpackBrowserJsPath ]);
 
     log(`webpack config for server located in ${webpackServerJsPath}`);
-    shellSpawn('./node_modules/.bin/webpack', [ '--config', webpackServerJsPath ]);
+    shellSpawn(path.resolve(__dirname, '../.././node_modules/.bin/webpack'), [ '--config', webpackServerJsPath ]);
 }
 
 module.exports = bundle;

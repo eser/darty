@@ -10,7 +10,7 @@ function dev() {
     );
 
     log(`webpack config for browser located in ${webpackBrowserJsPath}`);
-    shellSpawn('./node_modules/.bin/webpack-dev-server', [ '--config', webpackBrowserJsPath, '--inline', '--hot', '--progress' ]);
+    shellSpawn(path.resolve(__dirname, '../../node_modules/.bin/webpack'), [ 'serve', '--config', webpackBrowserJsPath, '--hot', '--progress' ]);
 }
 
 module.exports = dev;

@@ -10,7 +10,7 @@ function testCoverage() {
     );
 
     log(`jest config located in ${jestConfigPath}`);
-    shellSpawn('./node_modules/.bin/jest', [ '--config', jestConfigPath, '--rootDir', './', '--coverage' ]);
+    shellSpawn(path.resolve(__dirname, '../../node_modules/.bin/jest'), [ '--config', jestConfigPath, '--rootDir', './', '--coverage' ]);
 }
 
 module.exports = testCoverage;
