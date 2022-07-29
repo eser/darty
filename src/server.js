@@ -1,66 +1,66 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const colors = require('colors/safe');
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
+const colors = require("colors/safe");
 
-const pkg = require('../package.json');
+const pkg = require("../package.json");
 
 const app = express();
 
-const hostname = 'localhost';
-const port = parseInt(process.env.PORT || '3000', 10);
+const hostname = "localhost";
+const port = parseInt(process.env.PORT || "3000", 10);
 
 const pwd = process.cwd();
 
 const serverRenderer = (req, res, next) => {
-    const startupObj = require(`${pwd}/dist/server`);
+  const startupObj = require(`${pwd}/dist/server`);
 
-    const filePath = path.join(pwd, 'dist/index.html');
+  const filePath = path.join(pwd, "dist/index.html");
 
-    fs.readFile(filePath, 'utf8', (err, htmlData) => {
-        if (err) {
-            next();
-
-            return;
-        }
-
-        // render the app as a string
-        const html = startupObj.serverRender(req.originalUrl);
-
-        // inject the rendered app into our html and send it
-        res.send(
-            htmlData.replace(
-                '<app></app>',
-                `<app>${html}</app>`,
-            ),
-        );
-    });
-};
-
-if (!('window' in global)) {
-    global.window = {};
-}
-
-app.all('/', serverRenderer);
-
-app.use(
-    express.static(
-        path.join(pwd, 'dist'),
-        // {
-        //     index: 'index.html',
-        // },
-    ),
-);
-
-app.all('*', serverRenderer);
-
-app.listen(port, (err) => {
+  fs.readFile(filePath, "utf8", (err, htmlData) => {
     if (err) {
-        console.error(err);
+      next();
 
-        return;
+      return;
     }
 
-    console.log(colors.yellow(`Darty Server ${pkg.version}.`));
-    console.log(`🌎 Server is now running at http://${hostname}:${port}.`);
+    // render the app as a string
+    const html = startupObj.serverRender(req.originalUrl);
+
+    // inject the rendered app into our html and send it
+    res.send(
+      htmlData.replace(
+        "<app></app>",
+        `<app>${html}</app>`,
+      ),
+    );
+  });
+};
+
+if (!("window" in global)) {
+  global.window = {};
+}
+
+app.all("/", serverRenderer);
+
+app.use(
+  express.static(
+    path.join(pwd, "dist"),
+    // {
+    //     index: 'index.html',
+    // },
+  ),
+);
+
+app.all("*", serverRenderer);
+
+app.listen(port, (err) => {
+  if (err) {
+    console.error(err);
+
+    return;
+  }
+
+  console.log(colors.yellow(`Darty Server ${pkg.version}.`));
+  console.log(`🌎 Server is now running at http://${hostname}:${port}.`);
 });

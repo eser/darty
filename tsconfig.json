@@ -1,36 +1,35 @@
 {
-    "compilerOptions": {
-        "target": "ES5",
-        "module": "ES6",
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "importHelpers": true,
-        "sourceMap": true,
-        "declaration": true,
-        "downlevelIteration": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "noImplicitAny": false,
-        "removeComments": true,
-        "strictNullChecks": true,
-        "strict": true,
-        "allowJs": true,
-        "newLine": "LF",
-        "rootDir": "./src/",
-        "outDir": "./",
-        "lib": [
-            "es5"
-        ],
-        "baseUrl": ".",
-        "paths": {
-            "~/*": [
-                "./src/*"
-            ]
-        }
-    },
-    "include": [
-        "./src/**/*"
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "ES6",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "declaration": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "strictNullChecks": true,
+    "strict": true,
+    "allowJs": true,
+    "newLine": "LF",
+    "rootDir": "./src/",
+    "outDir": "./",
+    "lib": [
+      "es5"
     ],
-    "exclude": [
-    ]
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": []
 }

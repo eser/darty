@@ -2,31 +2,31 @@ declare var document: any;
 
 // polyfills
 if (global.fetch === undefined) {
-    require('whatwg-fetch');
+  require("whatwg-fetch");
 }
 
 // startup
 const startupArgs = {
-    platform: 'browser',
+  platform: "browser",
 };
 
-import startupExecutor from './startupExecutor';
+import startupExecutor from "./startupExecutor";
 
 const startupObj = startupExecutor(startupArgs);
 
-const targetElement = document.getElementsByTagName('app')[0];
+const targetElement = document.getElementsByTagName("app")[0];
 const isUpdate = (targetElement.childNodes.length > 0);
 
 startupObj.clientRender(targetElement, isUpdate);
 
 // webpack
 if (module.hot !== undefined) {
-    module.hot.accept(
-        (err) => {
-            if (err) {
-                console.error('Cannot apply HMR update.', err);
-            }
-        },
-        () => startupObj.clientRender(targetElement, true),
-    );
+  module.hot.accept(
+    (err) => {
+      if (err) {
+        console.error("Cannot apply HMR update.", err);
+      }
+    },
+    () => startupObj.clientRender(targetElement, true),
+  );
 }

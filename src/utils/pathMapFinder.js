@@ -1,13 +1,13 @@
-const fs = require('fs');
+const fs = require("fs");
 
 function pathMapFinder(set) {
-    const result = Object.keys(set).find(key => fs.existsSync(key));
+  const result = Object.keys(set).find((key) => fs.existsSync(key));
 
-    if (result !== undefined) {
-        return set[result];
-    }
+  if (result !== undefined) {
+    return set[result];
+  }
 
-    return null;
+  return null;
 }
 
 module.exports = pathMapFinder;
